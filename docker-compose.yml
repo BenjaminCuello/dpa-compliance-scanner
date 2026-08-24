@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: dpa_scanner_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-scanner}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-scanner_local}
+      POSTGRES_DB: ${DB_NAME:-dpa_scanner}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME:-scanner} -d ${DB_NAME:-dpa_scanner}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - '${DB_PORT:-5432}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: dpa_scanner_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3000
+      API_PREFIX: ${API_PREFIX:-api}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-scanner}
+      DB_PASSWORD: ${DB_PASSWORD:-scanner_local}
+      DB_NAME: ${DB_NAME:-dpa_scanner}
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
+      DB_LOGGING: ${DB_LOGGING:-false}
+      THROTTLE_TTL: ${THROTTLE_TTL:-60}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-60}
+    ports:
+      - '${PORT:-3000}:3000'
+
+volumes:
+  postgres_data:

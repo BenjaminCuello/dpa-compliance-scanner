@@ -21,9 +21,11 @@ dentro de un único repositorio.
 
 ```
 .
-├── backend/            # API NestJS (ver backend/README.md)
-├── frontend/           # Aplicación React (pendiente)
-└── docker-compose.yml  # PostgreSQL + backend
+├── backend/                 # API NestJS (ver backend/README.md)
+├── frontend/                # Aplicación React (pendiente)
+├── docs/                    # Documentación transversal
+├── docker-compose.yml       # PostgreSQL + backend
+└── docker-compose.dev.yml   # Sobrescritura para desarrollo
 ```
 
 ## Ejecución local
@@ -33,9 +35,17 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Para desarrollo, con recarga automática al guardar cambios en `backend/src`:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
 El `.env` de la raíz configura tanto a PostgreSQL como al backend. Si se cambian
 las credenciales cuando el volumen ya existe, hay que recrearlo con
 `docker compose down -v`.
+
+Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infraestructura.md).
 
 - API: `http://localhost:3000/api`
 - Swagger: `http://localhost:3000/api/docs`
@@ -45,8 +55,10 @@ las credenciales cuando el volumen ya existe, hay que recrearlo con
 ### Completado
 
 - [x] Backend NestJS: estructura por capas, configuración por entorno, conexión a
-      PostgreSQL vía TypeORM, documentación Swagger y contenedores.
+      PostgreSQL vía TypeORM y documentación Swagger.
 - [x] Endpoint `GET /api/health` con pruebas unitarias.
+- [x] Contenedores de backend y base de datos, con modos de desarrollo y
+      producción y verificación de estado de ambos servicios.
 
 ### Pendiente
 

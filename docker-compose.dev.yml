@@ -1,0 +1,12 @@
+services:
+  backend:
+    build:
+      target: development
+    environment:
+      NODE_ENV: development
+    healthcheck:
+      start_period: 90s
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/tsconfig.json:/app/tsconfig.json
+      - ./backend/nest-cli.json:/app/nest-cli.json

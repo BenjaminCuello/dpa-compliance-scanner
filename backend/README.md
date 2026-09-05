@@ -64,6 +64,16 @@ Hay dos formas de entregarlas, según cómo se ejecute el backend:
 
 El archivo `.env` está excluido del control de versiones y no debe compartirse.
 
+## Autenticación
+
+La API exige un token JWT en todos los endpoints, salvo los marcados como
+públicos (`/auth/register`, `/auth/login` y `/health`). El token se obtiene al
+registrarse o iniciar sesión y se envía en el encabezado
+`Authorization: Bearer <token>`.
+
+`JWT_SECRET` es obligatoria y debe tener al menos 32 caracteres; la aplicación no
+inicia sin ella. Ver `src/modules/auth/README.md`.
+
 ## Base de datos
 
 El esquema se gestiona con migraciones de TypeORM. Ver `src/database/README.md`

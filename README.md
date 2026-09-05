@@ -35,6 +35,9 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Antes de levantar el entorno hay que definir `JWT_SECRET` en el `.env` con una
+cadena de al menos 32 caracteres.
+
 Para desarrollo, con recarga automática al guardar cambios en `backend/src`:
 
 ```bash
@@ -59,11 +62,12 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
 - [x] Endpoint `GET /api/health` con pruebas unitarias.
 - [x] Contenedores de backend y base de datos, con modos de desarrollo y
       producción y verificación de estado de ambos servicios.
+- [x] Modelo de datos y migraciones en PostgreSQL.
+- [x] Autenticación con JWT: registro, inicio de sesión y protección de los
+      endpoints.
 
 ### Pendiente
 
-- [ ] **Modelo de datos**: entidades `Project`, `Scan`, `Rule`, `Finding` y
-      migraciones de TypeORM.
 - [ ] **Catálogo de controles** derivados de la Ley 21.719 (cifrado, gestión de
       secretos, políticas de retención, consentimiento, registro de accesos, etc.),
       con su ponderación para el puntaje de cumplimiento.

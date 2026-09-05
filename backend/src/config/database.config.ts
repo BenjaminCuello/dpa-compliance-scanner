@@ -10,4 +10,5 @@ export default registerAs('database', () => ({
   // En producción los cambios de esquema se aplican con migraciones.
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   logging: process.env.DB_LOGGING === 'true',
+  migrationsRun: process.env.DB_MIGRATIONS_RUN === 'true',
 }));

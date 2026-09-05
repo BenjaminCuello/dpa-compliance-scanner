@@ -9,5 +9,9 @@ Entidad `User`: la persona que usa la plataforma y es dueña de los proyectos.
 Relación: un usuario tiene muchos proyectos. Al eliminarlo se eliminan sus
 proyectos y, en cadena, sus auditorías y resultados.
 
-El módulo de autenticación y los servicios de este dominio se implementan en una
-tarea posterior; por ahora la carpeta solo contiene el modelo.
+- `users.service.ts`: búsqueda por correo o identificador y creación de usuarios,
+  normalizando el correo a minúsculas. El hash solo se recupera cuando se pide de
+  forma explícita, que es lo que hace el inicio de sesión.
+
+Lo consume el módulo `auth`. Los endpoints de gestión de usuarios se agregan en
+una tarea posterior.

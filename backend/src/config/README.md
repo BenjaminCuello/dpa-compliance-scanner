@@ -5,6 +5,8 @@ Centraliza la configuración de la aplicación.
 - `env.validation.ts`: esquema Joi que valida el `.env` al iniciar. Si falta una
   variable obligatoria la aplicación no arranca.
 - `app.config.ts`: namespace `app` (puerto, prefijo de la API, CORS, rate limit).
+- `auth.config.ts`: namespace `auth` (clave de firma, vigencia del token y costo
+  de bcrypt).
 - `database.config.ts`: namespace `database` (credenciales de PostgreSQL).
 - `index.ts`: punto único de importación.
 

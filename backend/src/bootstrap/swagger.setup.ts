@@ -14,6 +14,8 @@ export function setupSwagger(app: INestApplication, apiPrefix: string): void {
     )
     .setVersion('0.1.0')
     .addTag('Health', 'Estado del servicio y sus dependencias')
+    .addTag('Autenticación', 'Registro, inicio de sesión y datos de la sesión')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

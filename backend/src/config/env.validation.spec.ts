@@ -12,6 +12,7 @@ describe('envValidationSchema', () => {
     DB_USERNAME: 'scanner',
     DB_PASSWORD: 'secreto',
     DB_NAME: 'dpa_scanner',
+    JWT_SECRET: 'clave_de_pruebas_con_mas_de_32_caracteres',
   };
 
   it('aplica valores por defecto cuando faltan variables opcionales', () => {
@@ -33,6 +34,24 @@ describe('envValidationSchema', () => {
     );
 
     expect(error?.message).toContain('DB_HOST');
+  });
+
+  it('exige una clave de firma suficientemente larga', () => {
+    const { error } = envValidationSchema.validate({
+      ...baseEnv,
+      JWT_SECRET: 'demasiado-corta',
+    });
+
+    expect(error?.message).toContain('JWT_SECRET');
+  });
+
+  it('rechaza la configuración si falta la clave de firma', () => {
+    const { error } = envValidationSchema.validate({
+      ...baseEnv,
+      JWT_SECRET: undefined,
+    });
+
+    expect(error?.message).toContain('JWT_SECRET');
   });
 
   it('rechaza un puerto fuera de rango', () => {

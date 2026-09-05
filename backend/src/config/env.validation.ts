@@ -19,6 +19,7 @@ export const envValidationSchema = Joi.object({
   DB_NAME: Joi.string().required(),
   DB_SYNCHRONIZE: Joi.boolean().default(false),
   DB_LOGGING: Joi.boolean().default(false),
+  DB_MIGRATIONS_RUN: Joi.boolean().default(false),
 
   THROTTLE_TTL: Joi.number().positive().default(60),
   THROTTLE_LIMIT: Joi.number().positive().default(60),

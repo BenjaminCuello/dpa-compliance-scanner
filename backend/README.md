@@ -46,6 +46,8 @@ asociados a la Ley 21.719 de protección de datos personales.
 | `npm test` | Ejecuta las pruebas unitarias. |
 | `npm run test:cov` | Pruebas con reporte de cobertura. |
 | `npm run lint` | Analiza y corrige el estilo del código. |
+| `npm run migration:run` | Aplica las migraciones pendientes. |
+| `npm run migration:generate` | Genera una migración desde los cambios en las entidades. |
 
 ## Variables de entorno
 
@@ -61,6 +63,11 @@ Hay dos formas de entregarlas, según cómo se ejecute el backend:
 - **Sin Docker** (`npm run start:dev`): las define el `.env` de esta carpeta.
 
 El archivo `.env` está excluido del control de versiones y no debe compartirse.
+
+## Base de datos
+
+El esquema se gestiona con migraciones de TypeORM. Ver `src/database/README.md`
+para los comandos y el detalle del modelo de datos.
 
 ## Estructura
 

@@ -1,4 +1,6 @@
+import { LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { useAuth } from '../features/auth/useAuth';
 
 export function Header() {
@@ -11,21 +13,19 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4">
-      <span className="font-semibold text-slate-900">
-        DPA Compliance Scanner
-      </span>
+    <header className="flex h-14 items-center justify-end gap-4 border-b border-border bg-bg px-4">
+      {user && <span className="text-sm text-text-muted">{user.name}</span>}
 
-      <div className="flex items-center gap-4">
-        {user && <span className="text-sm text-slate-600">{user.name}</span>}
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="text-sm font-medium text-brand-600 hover:underline"
-        >
-          Cerrar sesión
-        </button>
-      </div>
+      <ThemeToggle />
+
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="flex items-center gap-1.5 text-sm font-medium text-text-muted hover:text-text"
+      >
+        <LogOut size={16} />
+        Cerrar sesión
+      </button>
     </header>
   );
 }

@@ -4,7 +4,7 @@ ENV SEMGREP_SEND_METRICS=off \
     SEMGREP_ENABLE_VERSION_CHECK=0 \
     PATH="/opt/semgrep/bin:${PATH}"
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 python3-venv \
+    && apt-get install -y --no-install-recommends ca-certificates git python3 python3-venv \
     && python3 -m venv /opt/semgrep \
     && /opt/semgrep/bin/pip install --no-cache-dir "semgrep==${SEMGREP_VERSION}" \
     && rm -rf /var/lib/apt/lists/*

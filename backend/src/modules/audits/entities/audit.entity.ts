@@ -6,6 +6,12 @@ import { CheckResult } from './check-result.entity';
 
 /** Ejecución del escaneo sobre un proyecto en un momento determinado. */
 @Entity('audits')
+// Garantiza a nivel de base de datos una sola auditoría en curso por proyecto,
+// incluso si llegan dos solicitudes al mismo tiempo.
+@Index('uq_audits_active_per_project', ['project'], {
+  unique: true,
+  where: `"status" IN ('pending', 'running')`,
+})
 export class Audit extends BaseEntity {
   @Index()
   @ManyToOne(() => Project, (project) => project.audits, {

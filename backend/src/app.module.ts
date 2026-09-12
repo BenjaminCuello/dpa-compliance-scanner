@@ -4,12 +4,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import {
   appConfig,
+  auditsConfig,
   authConfig,
   databaseConfig,
   envValidationSchema,
   scannerConfig,
 } from './config';
 import { DatabaseModule } from './database/database.module';
+import { AuditsModule } from './modules/audits/audits.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { HealthModule } from './modules/health/health.module';
@@ -20,7 +22,13 @@ import { ScannerModule } from './modules/scanner/scanner.module';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [appConfig, authConfig, databaseConfig, scannerConfig],
+      load: [
+        appConfig,
+        auditsConfig,
+        authConfig,
+        databaseConfig,
+        scannerConfig,
+      ],
       validationSchema: envValidationSchema,
       validationOptions: { abortEarly: false },
     }),
@@ -37,6 +45,7 @@ import { ScannerModule } from './modules/scanner/scanner.module';
     AuthModule,
     HealthModule,
     ScannerModule,
+    AuditsModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

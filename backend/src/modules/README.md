@@ -7,8 +7,6 @@ importa desde `app.module.ts`.
 - `auth/`: registro, inicio de sesión y protección de los endpoints.
 - `users/`: entidad de usuario y acceso a los datos de las cuentas.
 - `projects/`: proyectos o repositorios a auditar.
-- `audits/`: auditorías y el resultado de cada control evaluado.
+- `audits/`: inicio, ejecución e historial de auditorías, y sus resultados.
 - `scanner/`: ejecución de Semgrep y armado del reporte de controles.
 
-`projects` y `audits` contienen por ahora solo el modelo de datos; sus servicios
-y endpoints se agregan en las tareas siguientes.

@@ -17,7 +17,7 @@ El entorno se levanta con Docker Compose y consta de dos contenedores:
 
 | Etapa | Uso |
 |-------|-----|
-| `base` | Node.js sobre Debian slim con Semgrep instalado; base de las demás etapas. |
+| `base` | Node.js sobre Debian slim con git y Semgrep instalados; base de las demás etapas. |
 | `deps` | Instala las dependencias de Node. |
 | `development` | Ejecuta `npm run start:dev` con el código montado desde el host. |
 | `builder` | Compila TypeScript a `dist/`. |
@@ -35,6 +35,15 @@ alrededor de 1 GB.
 
 Las métricas y la verificación de versiones de Semgrep están desactivadas: el
 escaneo no envía información de los proyectos analizados fuera del contenedor.
+
+`git` se usa para clonar los repositorios auditados, y `ca-certificates` para
+validar los certificados HTTPS de los servicios de repositorios.
+
+### Salida a internet
+
+Para auditar, el contenedor del backend necesita acceso HTTPS a los hosts de
+`AUDIT_ALLOWED_GIT_HOSTS`. Los clones se guardan temporalmente en
+`SCANNER_WORKSPACE_DIR` y se eliminan al terminar cada auditoría.
 
 ## Modos de ejecución
 

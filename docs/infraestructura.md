@@ -17,10 +17,24 @@ El entorno se levanta con Docker Compose y consta de dos contenedores:
 
 | Etapa | Uso |
 |-------|-----|
-| `deps` | Instala las dependencias; base común de las demás etapas. |
+| `base` | Node.js sobre Debian slim con Semgrep instalado; base de las demás etapas. |
+| `deps` | Instala las dependencias de Node. |
 | `development` | Ejecuta `npm run start:dev` con el código montado desde el host. |
 | `builder` | Compila TypeScript a `dist/`. |
-| `production` | Copia solo `dist/` y las dependencias de producción; corre como usuario `node`. |
+| `production` | Copia `dist/`, las reglas de Semgrep y las dependencias de producción; corre como usuario `node`. |
+
+### Semgrep dentro de la imagen
+
+El backend ejecuta Semgrep como proceso hijo, por lo que ambos tienen que vivir
+en el mismo contenedor. Semgrep se instala en un entorno virtual de Python en
+`/opt/semgrep`, con la versión fijada en el argumento `SEMGREP_VERSION`.
+
+La imagen usa Debian slim y no Alpine porque Semgrep distribuye binarios
+compilados para glibc. Esto, sumado al propio Semgrep, lleva la imagen a
+alrededor de 1 GB.
+
+Las métricas y la verificación de versiones de Semgrep están desactivadas: el
+escaneo no envía información de los proyectos analizados fuera del contenedor.
 
 ## Modos de ejecución
 
@@ -36,7 +50,7 @@ Desarrollo, con recarga automática al guardar archivos de `backend/src`:
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
-En desarrollo, `backend/src` se monta desde el host, así que un cambio en el
+En desarrollo, `backend/src` y `backend/semgrep` se montan desde el host, así que un cambio en el
 código reinicia la aplicación sin reconstruir la imagen. `node_modules` vive
 dentro del contenedor y no se comparte con el host.
 

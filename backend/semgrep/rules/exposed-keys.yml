@@ -1,0 +1,43 @@
+rules:
+  - id: dpa-cloud-access-key
+    languages: [generic]
+    severity: ERROR
+    message: Se encontró una clave de acceso de AWS en el repositorio.
+    pattern-regex: \b(AKIA|ASIA)[0-9A-Z]{16}\b
+    metadata:
+      dpa-code: DPA-SEC-002
+      title: Claves de acceso a servicios en la nube
+      category: secrets
+      dpa-severity: critical
+      remediation: >-
+        Revocar la clave en la consola del proveedor y usar credenciales
+        temporales o variables de entorno.
+
+  - id: dpa-private-key
+    languages: [generic]
+    severity: ERROR
+    message: Se encontró una clave privada almacenada en el repositorio.
+    pattern-regex: '-----BEGIN (RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----'
+    metadata:
+      dpa-code: DPA-SEC-003
+      title: Claves privadas en el repositorio
+      category: secrets
+      dpa-severity: critical
+      remediation: >-
+        Eliminar la clave del repositorio y de su historial, generar un nuevo
+        par de claves y almacenarlo fuera del código.
+
+  - id: dpa-connection-string-credentials
+    languages: [generic]
+    severity: ERROR
+    message: >-
+      Una cadena de conexión incluye usuario y contraseña de una base de datos.
+    pattern-regex: (?i)\b(postgres(ql)?|mysql|mariadb|mongodb(\+srv)?|redis|amqp)://[^\s:/@"']+:[^\s@"'$]{3,}@
+    metadata:
+      dpa-code: DPA-SEC-004
+      title: Credenciales de base de datos en cadenas de conexión
+      category: secrets
+      dpa-severity: high
+      remediation: >-
+        Construir la cadena de conexión a partir de variables de entorno sin
+        incluir la contraseña en el código.

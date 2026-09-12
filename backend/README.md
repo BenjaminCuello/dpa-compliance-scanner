@@ -46,6 +46,7 @@ asociados a la Ley 21.719 de protección de datos personales.
 | `npm test` | Ejecuta las pruebas unitarias. |
 | `npm run test:cov` | Pruebas con reporte de cobertura. |
 | `npm run lint` | Analiza y corrige el estilo del código. |
+| `npm run test:rules` | Verifica las reglas de Semgrep contra sus casos de prueba. |
 | `npm run migration:run` | Aplica las migraciones pendientes. |
 | `npm run migration:generate` | Genera una migración desde los cambios en las entidades. |
 
@@ -73,6 +74,16 @@ registrarse o iniciar sesión y se envía en el encabezado
 
 `JWT_SECRET` es obligatoria y debe tener al menos 32 caracteres; la aplicación no
 inicia sin ella. Ver `src/modules/auth/README.md`.
+
+## Motor de escaneo
+
+El análisis de los proyectos lo hace Semgrep, que viene instalado en la imagen de
+Docker. Para ejecutar el backend fuera de Docker hay que instalarlo aparte
+(`pipx install semgrep`) o indicar su ubicación en `SEMGREP_BIN`.
+
+Los proyectos solo se pueden escanear si están dentro de `SCANNER_WORKSPACE_DIR`.
+Las reglas y el catálogo de controles están en `semgrep/README.md`; el
+funcionamiento del módulo, en `src/modules/scanner/README.md`.
 
 ## Base de datos
 

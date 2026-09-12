@@ -1,0 +1,128 @@
+rules:
+  - id: dpa-tls-verification-disabled
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      La verificación del certificado TLS está desactivada. Los datos viajan
+      cifrados, pero sin garantía de estar hablando con el servidor correcto.
+    pattern-either:
+      - pattern: '{..., rejectUnauthorized: false, ...}'
+      - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+    metadata:
+      dpa-code: DPA-CFG-001
+      title: Verificación de certificados TLS desactivada
+      category: configuration
+      dpa-severity: high
+      remediation: >-
+        Mantener la verificación activa y, si el servidor usa una autoridad
+        propia, entregar su certificado con la opción "ca".
+
+  - id: dpa-tls-verification-disabled-python
+    languages: [python]
+    severity: ERROR
+    message: >-
+      La verificación del certificado TLS está desactivada en una petición HTTP.
+    pattern: $HTTP.$METHOD(..., verify=False, ...)
+    metadata:
+      dpa-code: DPA-CFG-001
+      title: Verificación de certificados TLS desactivada
+      category: configuration
+      dpa-severity: high
+      remediation: >-
+        Mantener la verificación activa y, si el servidor usa una autoridad
+        propia, indicar su certificado en el parámetro "verify".
+
+  - id: dpa-cors-any-origin
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      La API acepta peticiones de cualquier origen, lo que permite que sitios de
+      terceros consuman endpoints con datos personales.
+    pattern-either:
+      - pattern: 'cors({..., origin: "*", ...})'
+      - pattern: '$APP.enableCors({..., origin: "*", ...})'
+      - pattern: $RES.setHeader("Access-Control-Allow-Origin", "*")
+      - pattern: $RES.header("Access-Control-Allow-Origin", "*")
+    metadata:
+      dpa-code: DPA-CFG-002
+      title: CORS abierto a cualquier origen
+      category: configuration
+      dpa-severity: medium
+      remediation: >-
+        Declarar explícitamente la lista de orígenes autorizados.
+
+  - id: dpa-insecure-session-cookie
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      La cookie se configura sin la protección "$FLAG", lo que la expone a robo
+      de sesión.
+    patterns:
+      - pattern: '{..., $FLAG: false, ...}'
+      - metavariable-regex:
+          metavariable: $FLAG
+          regex: ^(secure|httpOnly)$
+      - pattern-inside: $X.cookie(...)
+    metadata:
+      dpa-code: DPA-CFG-003
+      title: Cookies de sesión sin atributos de seguridad
+      category: configuration
+      dpa-severity: medium
+      remediation: >-
+        Activar "secure" y "httpOnly" en las cookies que identifican sesiones.
+
+  - id: dpa-weak-hash-algorithm
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      Se usa "$ALG", un algoritmo de hash que ya no es adecuado para proteger
+      contraseñas ni datos sensibles.
+    patterns:
+      - pattern: $CRYPTO.createHash("$ALG")
+      - metavariable-regex:
+          metavariable: $ALG
+          regex: (?i)^(md5|sha1)$
+    metadata:
+      dpa-code: DPA-CFG-004
+      title: Algoritmos de hash débiles
+      category: configuration
+      dpa-severity: high
+      remediation: >-
+        Usar bcrypt, scrypt o argon2 para contraseñas, y SHA-256 o superior para
+        verificar integridad.
+
+  - id: dpa-weak-hash-algorithm-python
+    languages: [python]
+    severity: WARNING
+    message: >-
+      Se usa un algoritmo de hash que ya no es adecuado para proteger
+      contraseñas ni datos sensibles.
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+    metadata:
+      dpa-code: DPA-CFG-004
+      title: Algoritmos de hash débiles
+      category: configuration
+      dpa-severity: high
+      remediation: >-
+        Usar bcrypt, scrypt o argon2 para contraseñas, y SHA-256 o superior para
+        verificar integridad.
+
+  - id: dpa-debug-mode-enabled
+    languages: [python]
+    severity: WARNING
+    message: >-
+      El modo de depuración está activo; ante un error expone detalles internos
+      y, en algunos frameworks, permite ejecutar código.
+    pattern-either:
+      - pattern: DEBUG = True
+      - pattern: $APP.run(..., debug=True, ...)
+    metadata:
+      dpa-code: DPA-CFG-005
+      title: Modo de depuración activo
+      category: configuration
+      dpa-severity: medium
+      remediation: >-
+        Controlar el modo de depuración con una variable de entorno y dejarlo
+        desactivado fuera del entorno local.

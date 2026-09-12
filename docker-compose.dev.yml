@@ -8,5 +8,6 @@ services:
       start_period: 90s
     volumes:
       - ./backend/src:/app/src
+      - ./backend/semgrep:/app/semgrep
       - ./backend/tsconfig.json:/app/tsconfig.json
       - ./backend/nest-cli.json:/app/nest-cli.json

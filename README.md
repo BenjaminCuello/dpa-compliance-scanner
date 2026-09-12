@@ -67,10 +67,11 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
       endpoints.
 - [x] Motor de escaneo con Semgrep y catálogo inicial de controles sobre
       secretos expuestos y configuraciones inseguras.
+- [x] Endpoints REST para iniciar auditorías de repositorios públicos,
+      consultar sus resultados y revisar el historial.
 
 ### Pendiente
 
-- [ ] **Endpoints REST** de proyectos, escaneos y reportes, documentados en Swagger.
 - [ ] **Frontend React**: dashboard con gráficos de cumplimiento y detalle de hallazgos.
 - [ ] **Pipeline GitHub Actions**: lint, build y pruebas en cada push y pull request.
 - [ ] **Despliegue automático** a un servicio gratuito con base de datos PostgreSQL

@@ -75,13 +75,21 @@ registrarse o iniciar sesión y se envía en el encabezado
 `JWT_SECRET` es obligatoria y debe tener al menos 32 caracteres; la aplicación no
 inicia sin ella. Ver `src/modules/auth/README.md`.
 
+## Auditorías
+
+`POST /audits` inicia el análisis de un repositorio público y responde de
+inmediato; el avance y los resultados se consultan en `GET /audits/:id`, y el
+historial en `GET /audits`. Detalle del contrato y del ciclo de ejecución en
+`src/modules/audits/README.md`.
+
 ## Motor de escaneo
 
 El análisis de los proyectos lo hace Semgrep, que viene instalado en la imagen de
 Docker. Para ejecutar el backend fuera de Docker hay que instalarlo aparte
 (`pipx install semgrep`) o indicar su ubicación en `SEMGREP_BIN`.
 
-Los proyectos solo se pueden escanear si están dentro de `SCANNER_WORKSPACE_DIR`.
+El backend clona los repositorios con `git`, también incluido en la imagen. Los
+proyectos solo se pueden escanear si están dentro de `SCANNER_WORKSPACE_DIR`.
 Las reglas y el catálogo de controles están en `semgrep/README.md`; el
 funcionamiento del módulo, en `src/modules/scanner/README.md`.
 

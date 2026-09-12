@@ -30,6 +30,13 @@ export const envValidationSchema = Joi.object({
   SEMGREP_TIMEOUT_MS: Joi.number().integer().min(1000).default(300000),
   SCANNER_WORKSPACE_DIR: Joi.string().optional(),
 
+  AUDIT_ALLOWED_GIT_HOSTS: Joi.string().default(
+    'github.com,gitlab.com,bitbucket.org',
+  ),
+  AUDIT_CLONE_TIMEOUT_MS: Joi.number().integer().min(5000).default(120000),
+  AUDIT_MAX_REPOSITORY_MB: Joi.number().integer().min(1).max(2000).default(200),
+  AUDIT_MAX_CONCURRENT: Joi.number().integer().min(1).max(10).default(2),
+
   THROTTLE_TTL: Joi.number().positive().default(60),
   THROTTLE_LIMIT: Joi.number().positive().default(60),
 });

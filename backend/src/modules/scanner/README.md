@@ -3,8 +3,8 @@
 Ejecuta Semgrep sobre un proyecto y convierte su salida en un reporte
 estructurado de controles aprobados y fallidos.
 
-No expone endpoints: lo consume el módulo de auditorías, que decide qué
-proyecto escanear y persiste el resultado.
+No expone endpoints: lo consume el módulo `audits`, que clona el repositorio en
+el directorio de trabajo, invoca el escaneo y guarda el resultado.
 
 ## Flujo
 

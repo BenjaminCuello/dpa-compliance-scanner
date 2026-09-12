@@ -65,14 +65,11 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
 - [x] Modelo de datos y migraciones en PostgreSQL.
 - [x] Autenticación con JWT: registro, inicio de sesión y protección de los
       endpoints.
+- [x] Motor de escaneo con Semgrep y catálogo inicial de controles sobre
+      secretos expuestos y configuraciones inseguras.
 
 ### Pendiente
 
-- [ ] **Catálogo de controles** derivados de la Ley 21.719 (cifrado, gestión de
-      secretos, políticas de retención, consentimiento, registro de accesos, etc.),
-      con su ponderación para el puntaje de cumplimiento.
-- [ ] **Motor de scanner**: análisis del repositorio objetivo y generación de
-      hallazgos por control.
 - [ ] **Endpoints REST** de proyectos, escaneos y reportes, documentados en Swagger.
 - [ ] **Frontend React**: dashboard con gráficos de cumplimiento y detalle de hallazgos.
 - [ ] **Pipeline GitHub Actions**: lint, build y pruebas en cada push y pull request.

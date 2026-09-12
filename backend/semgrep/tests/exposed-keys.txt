@@ -1,0 +1,20 @@
+# ruleid: dpa-cloud-access-key
+aws_access_key_id = AKIAIOSFODNN7EXAMPLE
+
+# ok: dpa-cloud-access-key
+aws_access_key_id = ${AWS_ACCESS_KEY_ID}
+
+# ruleid: dpa-private-key
+-----BEGIN RSA PRIVATE KEY-----
+
+# ok: dpa-private-key
+-----BEGIN PUBLIC KEY-----
+
+# ruleid: dpa-connection-string-credentials
+DATABASE_URL=postgres://scanner:clave_real@db.ejemplo.cl:5432/app
+
+# ok: dpa-connection-string-credentials
+DATABASE_URL=postgres://db.ejemplo.cl:5432/app
+
+# ok: dpa-connection-string-credentials
+DATABASE_URL=postgres://scanner:${DB_PASSWORD}@db:5432/app

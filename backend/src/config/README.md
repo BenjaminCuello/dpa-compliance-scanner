@@ -7,6 +7,8 @@ Centraliza la configuración de la aplicación.
 - `app.config.ts`: namespace `app` (puerto, prefijo de la API, CORS, rate limit).
 - `auth.config.ts`: namespace `auth` (clave de firma, vigencia del token y costo
   de bcrypt).
+- `scanner.config.ts`: namespace `scanner` (ejecutable de Semgrep, carpeta de
+  reglas, directorio de trabajo y tiempo máximo del escaneo).
 - `database.config.ts`: namespace `database` (credenciales de PostgreSQL).
 - `index.ts`: punto único de importación.
 

@@ -54,6 +54,24 @@ describe('envValidationSchema', () => {
     expect(error?.message).toContain('JWT_SECRET');
   });
 
+  it('aplica los valores por defecto del escáner', () => {
+    const { value } = envValidationSchema.validate(baseEnv) as {
+      value: Record<string, unknown>;
+    };
+
+    expect(value.SEMGREP_BIN).toBe('semgrep');
+    expect(value.SEMGREP_TIMEOUT_MS).toBe(300000);
+  });
+
+  it('rechaza un tiempo máximo de escaneo demasiado bajo', () => {
+    const { error } = envValidationSchema.validate({
+      ...baseEnv,
+      SEMGREP_TIMEOUT_MS: 10,
+    });
+
+    expect(error?.message).toContain('SEMGREP_TIMEOUT_MS');
+  });
+
   it('rechaza un puerto fuera de rango', () => {
     const { error } = envValidationSchema.validate({ ...baseEnv, PORT: 99999 });
 

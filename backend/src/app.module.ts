@@ -7,18 +7,20 @@ import {
   authConfig,
   databaseConfig,
   envValidationSchema,
+  scannerConfig,
 } from './config';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { HealthModule } from './modules/health/health.module';
+import { ScannerModule } from './modules/scanner/scanner.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [appConfig, authConfig, databaseConfig],
+      load: [appConfig, authConfig, databaseConfig, scannerConfig],
       validationSchema: envValidationSchema,
       validationOptions: { abortEarly: false },
     }),
@@ -34,6 +36,7 @@ import { HealthModule } from './modules/health/health.module';
     DatabaseModule,
     AuthModule,
     HealthModule,
+    ScannerModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

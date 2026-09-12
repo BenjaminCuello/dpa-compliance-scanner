@@ -25,6 +25,11 @@ export const envValidationSchema = Joi.object({
   JWT_EXPIRES_IN: Joi.string().default('1h'),
   BCRYPT_ROUNDS: Joi.number().integer().min(10).max(15).default(12),
 
+  SEMGREP_BIN: Joi.string().default('semgrep'),
+  SEMGREP_RULES_DIR: Joi.string().optional(),
+  SEMGREP_TIMEOUT_MS: Joi.number().integer().min(1000).default(300000),
+  SCANNER_WORKSPACE_DIR: Joi.string().optional(),
+
   THROTTLE_TTL: Joi.number().positive().default(60),
   THROTTLE_LIMIT: Joi.number().positive().default(60),
 });

@@ -16,11 +16,23 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 /** Registro de cuentas, verificación de credenciales y emisión de tokens. */
 @Injectable()
 export class AuthService {
+  /**
+   * Hash de relleno con el mismo costo que los reales. Se compara contra él
+   * cuando el correo no existe, para que la respuesta tarde lo mismo y el
+   * tiempo no revele qué cuentas están registradas.
+   */
+  private readonly timingSafeHash: string;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    this.timingSafeHash = bcrypt.hashSync(
+      'hash-de-relleno-sin-uso',
+      this.configService.get<number>('auth.bcryptRounds', 12),
+    );
+  }
 
   /**
    * Crea una cuenta nueva.
@@ -52,15 +64,14 @@ export class AuthService {
   async login(dto: LoginDto): Promise<AuthResponseDto> {
     const user = await this.usersService.findByEmail(dto.email, true);
 
-    // Se responde igual ante correo inexistente y contraseña incorrecta para
-    // no revelar qué cuentas existen.
-    if (!user || !user.isActive) {
-      throw new UnauthorizedException('Credenciales inválidas');
-    }
+    // bcrypt se ejecuta siempre, exista o no el correo: responder más rápido
+    // ante un correo inexistente permitiría descubrir cuentas midiendo tiempos.
+    const matches = await bcrypt.compare(
+      dto.password,
+      user?.passwordHash ?? this.timingSafeHash,
+    );
 
-    const matches = await bcrypt.compare(dto.password, user.passwordHash);
-
-    if (!matches) {
+    if (!user || !user.isActive || !matches) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 

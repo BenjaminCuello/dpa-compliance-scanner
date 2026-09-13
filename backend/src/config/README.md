@@ -6,7 +6,8 @@ Centraliza la configuración de la aplicación.
   variable obligatoria la aplicación no arranca.
 - `audits.config.ts`: namespace `audits` (hosts de repositorios permitidos,
   tiempo y tamaño máximos del clonado, y auditorías simultáneas).
-- `app.config.ts`: namespace `app` (puerto, prefijo de la API, CORS, rate limit).
+- `app.config.ts`: namespace `app` (puerto, prefijo de la API, CORS, proxies de
+  confianza y rate limit).
 - `auth.config.ts`: namespace `auth` (clave de firma, vigencia del token y costo
   de bcrypt).
 - `scanner.config.ts`: namespace `scanner` (ejecutable de Semgrep, carpeta de

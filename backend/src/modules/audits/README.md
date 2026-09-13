@@ -102,4 +102,6 @@ categoría y remediación desde el catálogo vigente.
 - **Cada usuario solo ve lo suyo.** Las auditorías y proyectos ajenos responden
   404, igual que los inexistentes, para no revelar que existen.
 - **Reinicios:** al arrancar, las auditorías que quedaron en `pending` o
-  `running` pasan a `failed` y se borran los clones que quedaron a medias.
+  `running` pasan a `failed` y se borran los clones que quedaron a medias. Solo
+  se eliminan carpetas con nombre de auditoría, de modo que un
+  `SCANNER_WORKSPACE_DIR` mal configurado no borra otros archivos.

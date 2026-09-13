@@ -11,6 +11,7 @@ export const envValidationSchema = Joi.object({
   PORT: Joi.number().port().default(3000),
   API_PREFIX: Joi.string().default('api'),
   CORS_ORIGINS: Joi.string().default('http://localhost:5173'),
+  TRUST_PROXY_HOPS: Joi.number().integer().min(0).max(5).default(0),
 
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().port().default(5432),

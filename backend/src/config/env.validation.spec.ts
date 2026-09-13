@@ -72,6 +72,17 @@ describe('envValidationSchema', () => {
     expect(error?.message).toContain('SEMGREP_TIMEOUT_MS');
   });
 
+  it('no confía en proxies salvo que se declaren', () => {
+    const { value } = envValidationSchema.validate(baseEnv) as {
+      value: Record<string, unknown>;
+    };
+
+    expect(value.TRUST_PROXY_HOPS).toBe(0);
+    expect(
+      envValidationSchema.validate({ ...baseEnv, TRUST_PROXY_HOPS: -1 }).error,
+    ).toBeDefined();
+  });
+
   it('rechaza un puerto fuera de rango', () => {
     const { error } = envValidationSchema.validate({ ...baseEnv, PORT: 99999 });
 

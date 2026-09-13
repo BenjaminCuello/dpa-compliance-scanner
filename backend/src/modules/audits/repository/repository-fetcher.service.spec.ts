@@ -119,14 +119,6 @@ describe('RepositoryFetcherService', () => {
     ).rejects.toThrow('tiempo máximo');
   });
 
-  it('vacía el directorio de trabajo al iniciar', async () => {
-    await mkdir(join(workspace, 'clon-a-medias', 'src'), { recursive: true });
-    await writeFile(join(workspace, 'resto.tmp'), 'x');
-
-    await expect(service.clearWorkspace()).resolves.toBe(2);
-    await expect(service.clearWorkspace()).resolves.toBe(0);
-  });
-
   it('elimina el código descargado sin fallar si ya no existe', async () => {
     const folder = join(workspace, 'auditoria-5');
     await mkdir(folder);

@@ -30,7 +30,10 @@ Registro de cuentas, inicio de sesión y protección de los endpoints.
 - Los endpoints quedan protegidos por omisión: agregar uno nuevo no exige
   acordarse de ponerle el guard, sino lo contrario, marcarlo como público.
 - El inicio de sesión responde el mismo mensaje ante un correo inexistente y ante
-  una contraseña incorrecta, para no revelar qué cuentas están registradas.
+  una contraseña incorrecta, para no revelar qué cuentas están registradas. Por
+  la misma razón, bcrypt se ejecuta en ambos casos: si el correo no existe se
+  compara contra un hash de relleno, así la respuesta tarda lo mismo y el tiempo
+  tampoco delata cuentas.
 - El token lleva solo el identificador y el correo. Los datos del usuario se
   leen de la base en cada petición, así una cuenta desactivada deja de tener
   acceso sin esperar a que expire el token.

@@ -1,11 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { execFile } from 'node:child_process';
+import { Dirent } from 'node:fs';
 import { lstat, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { RepositoryFetchError } from './repository.errors';
 
 const BYTES_PER_MB = 1024 * 1024;
+const AUDIT_FOLDER =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Descarga el código de un repositorio público en el directorio de trabajo. */
 @Injectable()
@@ -42,20 +45,28 @@ export class RepositoryFetcherService {
   }
 
   /**
-   * Borra todo lo que quedó en el directorio de trabajo. Solo debe llamarse al
-   * iniciar, cuando ninguna auditoría está en curso: sirve para limpiar clones
-   * que un reinicio dejó a medias.
-   * @returns Cantidad de elementos eliminados.
+   * Borra los clones que un reinicio dejó a medias. Solo debe llamarse al
+   * iniciar, cuando ninguna auditoría está en curso.
+   *
+   * Únicamente elimina carpetas con nombre de auditoría (un UUID), que son las
+   * que crea este servicio: si el directorio de trabajo se configurara sobre
+   * una carpeta compartida, el resto de su contenido queda intacto.
+   * @returns Cantidad de clones eliminados.
    */
   async clearWorkspace(): Promise<number> {
     const workspace = this.config.get<string>('scanner.workspaceDir', '');
-    const entries = await readdir(workspace).catch(() => [] as string[]);
+    const entries: Dirent[] = await readdir(workspace, {
+      withFileTypes: true,
+    }).catch((): Dirent[] => []);
+    const clones = entries.filter(
+      (entry) => entry.isDirectory() && AUDIT_FOLDER.test(entry.name),
+    );
 
-    for (const entry of entries) {
-      await this.remove(join(workspace, entry));
+    for (const clone of clones) {
+      await this.remove(join(workspace, clone.name));
     }
 
-    return entries.length;
+    return clones.length;
   }
 
   /** Elimina el código descargado. No falla si la carpeta ya no existe. */

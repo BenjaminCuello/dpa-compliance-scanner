@@ -82,6 +82,16 @@ inmediato; el avance y los resultados se consultan en `GET /audits/:id`, y el
 historial en `GET /audits`. Detalle del contrato y del ciclo de ejecución en
 `src/modules/audits/README.md`.
 
+## Despliegue detrás de un proxy
+
+Los servicios de hosting suelen poner un proxy delante de la aplicación. En ese
+caso hay que definir `TRUST_PROXY_HOPS` con la cantidad de proxies (normalmente
+`1`). Sin esto, todas las peticiones parecen venir de la misma IP y los límites
+de peticiones se agotan entre todos los usuarios a la vez.
+
+En local y en Docker Compose debe quedar en `0`: sin un proxy real, cualquier
+cliente podría falsificar su IP para eludir los límites.
+
 ## Motor de escaneo
 
 El análisis de los proyectos lo hace Semgrep, que viene instalado en la imagen de

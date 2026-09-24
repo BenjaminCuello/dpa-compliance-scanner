@@ -20,6 +20,14 @@ describe('configuración por namespaces', () => {
     ]);
   });
 
+  it('permite suficientes peticiones para una interfaz que consulta seguido', () => {
+    process.env = { ...originalEnv };
+    delete process.env.THROTTLE_LIMIT;
+    delete process.env.THROTTLE_TTL;
+
+    expect(appConfig().throttle).toEqual({ ttl: 60, limit: 120 });
+  });
+
   it('interpreta las banderas booleanas de la base de datos', () => {
     process.env = {
       ...originalEnv,

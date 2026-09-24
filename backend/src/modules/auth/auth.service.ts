@@ -6,6 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { isUniqueViolation } from '../../common/database/unique-violation';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AuthResponseDto } from './dto/auth-response.dto';
@@ -47,13 +48,24 @@ export class AuthService {
 
     const rounds = this.configService.get<number>('auth.bcryptRounds', 12);
     const passwordHash = await bcrypt.hash(dto.password, rounds);
-    const user = await this.usersService.create({
-      email: dto.email,
-      name: dto.name,
-      passwordHash,
-    });
 
-    return this.buildResponse(user);
+    try {
+      const user = await this.usersService.create({
+        email: dto.email,
+        name: dto.name,
+        passwordHash,
+      });
+
+      return this.buildResponse(user);
+    } catch (error) {
+      // Dos registros del mismo correo a la vez pasan la comprobación anterior;
+      // el rechazo de la base de datos también es un conflicto, no un fallo.
+      if (isUniqueViolation(error)) {
+        throw new ConflictException('El correo ya está registrado');
+      }
+
+      throw error;
+    }
   }
 
   /**

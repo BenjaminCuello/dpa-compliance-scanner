@@ -39,5 +39,5 @@ export const envValidationSchema = Joi.object({
   AUDIT_MAX_CONCURRENT: Joi.number().integer().min(1).max(10).default(2),
 
   THROTTLE_TTL: Joi.number().positive().default(60),
-  THROTTLE_LIMIT: Joi.number().positive().default(60),
+  THROTTLE_LIMIT: Joi.number().positive().default(120),
 });

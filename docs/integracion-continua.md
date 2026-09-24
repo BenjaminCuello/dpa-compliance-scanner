@@ -51,6 +51,10 @@ npm run test:e2e
 `lint:ci` se diferencia de `npm run lint` en que no corrige nada: solo informa,
 que es lo que corresponde en un pipeline.
 
+## Variables al desplegar
+
+Las que hay que definir en el hosting están listadas en el README del backend.
+
 ## Qué no hace todavía
 
 - No revisa el frontend.

@@ -4,7 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { isUniqueViolation } from '../../common/database/unique-violation';
 import { RuleCatalogService } from '../scanner/catalog/rule-catalog.service';
 import { User } from '../users/entities/user.entity';
 import { AuditProjectResolver } from './audit-project.resolver';
@@ -16,8 +17,6 @@ import { Audit } from './entities/audit.entity';
 import { CheckResult } from './entities/check-result.entity';
 import { AuditRunnerService } from './execution/audit-runner.service';
 import { toAuditDetail, toAuditSummary } from './mappers/audit-response.mapper';
-
-const UNIQUE_VIOLATION = '23505';
 
 /** Inicio y consulta de auditorías, siempre acotado a los proyectos del usuario. */
 @Injectable()
@@ -45,10 +44,7 @@ export class AuditsService {
     try {
       audit = await this.audits.save(this.audits.create({ project }));
     } catch (error) {
-      if (
-        error instanceof QueryFailedError &&
-        (error.driverError as { code?: string }).code === UNIQUE_VIOLATION
-      ) {
+      if (isUniqueViolation(error)) {
         throw new ConflictException(
           'El proyecto ya tiene una auditoría en curso',
         );

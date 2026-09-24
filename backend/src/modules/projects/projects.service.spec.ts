@@ -1,5 +1,5 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Project } from './entities/project.entity';
 import { ProjectsService } from './projects.service';
@@ -52,6 +52,28 @@ describe('ProjectsService', () => {
     await expect(
       service.findOrCreate(owner, url, 'org/repo'),
     ).rejects.toBeInstanceOf(ConflictException);
+  });
+
+  it('responde conflicto si la base rechaza el nombre duplicado', async () => {
+    repository.findOne.mockResolvedValue(null);
+    repository.exists.mockResolvedValue(false);
+    repository.save.mockRejectedValue(
+      new QueryFailedError('INSERT', [], { code: '23505' } as unknown as Error),
+    );
+
+    await expect(
+      service.findOrCreate(owner, url, 'org/repo'),
+    ).rejects.toBeInstanceOf(ConflictException);
+  });
+
+  it('propaga cualquier otro error al crear el proyecto', async () => {
+    repository.findOne.mockResolvedValue(null);
+    repository.exists.mockResolvedValue(false);
+    repository.save.mockRejectedValue(new Error('conexión perdida'));
+
+    await expect(service.findOrCreate(owner, url, 'org/repo')).rejects.toThrow(
+      'conexión perdida',
+    );
   });
 
   it('solo encuentra proyectos propios', async () => {

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { isUniqueViolation } from '../../common/database/unique-violation';
 import { User } from '../users/entities/user.entity';
 import { Project } from './entities/project.entity';
 
@@ -63,12 +64,22 @@ export class ProjectsService {
       );
     }
 
-    return this.projectsRepository.save(
-      this.projectsRepository.create({
-        name: defaultName,
-        repositoryUrl,
-        owner: { id: owner.id },
-      }),
-    );
+    try {
+      return await this.projectsRepository.save(
+        this.projectsRepository.create({
+          name: defaultName,
+          repositoryUrl,
+          owner: { id: owner.id },
+        }),
+      );
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        throw new ConflictException(
+          `Ya tienes un proyecto llamado "${defaultName}" con otro repositorio`,
+        );
+      }
+
+      throw error;
+    }
   }
 }

@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Solo lectura del repositorio: el pipeline no publica ni modifica nada.
+permissions:
+  contents: read
+
+# Un push nuevo sobre la misma rama cancela la ejecución anterior.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+
+    # Las pruebas de integración corren contra PostgreSQL real, como en local.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: scanner
+          POSTGRES_PASSWORD: scanner_ci
+          POSTGRES_DB: dpa_scanner
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U scanner -d dpa_scanner"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Revisar estilo
+        run: npm run lint:ci
+
+      - name: Compilar
+        run: npm run build
+
+      - name: Pruebas unitarias con cobertura
+        run: npm run test:cov
+
+      - name: Pruebas de integración
+        run: npm run test:e2e
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USERNAME: scanner
+          DB_PASSWORD: scanner_ci
+          DB_NAME: dpa_scanner_test
+          JWT_SECRET: clave-de-integracion-continua-con-largo-suficiente
+
+      - name: Resumen de cobertura
+        if: always()
+        run: node scripts/coverage-summary.mjs >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/coverage/
+          retention-days: 14
+
+  rules:
+    name: Reglas de escaneo
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar Semgrep
+        run: pip install --no-cache-dir semgrep==1.176.1
+
+      - name: Verificar las reglas contra sus casos de prueba
+        run: npm run test:rules
+
+  image:
+    name: Imagen de Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir la imagen de producción
+        run: docker build --target production -t dpa-compliance-scanner-backend:ci .

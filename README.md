@@ -1,5 +1,7 @@
 # DPA Compliance Scanner
 
+[![CI](https://github.com/BenjaminCuello/dpa-compliance-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/BenjaminCuello/dpa-compliance-scanner/actions/workflows/ci.yml)
+
 Aplicación que audita si un proyecto o repositorio cumple con controles técnicos
 relacionados a la **Ley 21.719** de protección de datos personales, y presenta los
 resultados en un dashboard con gráficos.
@@ -21,6 +23,7 @@ dentro de un único repositorio.
 
 ```
 .
+├── .github/workflows/       # Integración continua
 ├── backend/                 # API NestJS (ver backend/README.md)
 ├── frontend/                # Aplicación React (pendiente)
 ├── docs/                    # Documentación transversal
@@ -71,10 +74,11 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
       consultar sus resultados y revisar el historial.
 - [x] Pruebas unitarias y de integración del backend, estas últimas contra la
       API y la base de datos reales.
+- [x] Integración continua en GitHub Actions: estilo, compilación, pruebas con
+      cobertura, reglas de escaneo e imagen de Docker.
 
 ### Pendiente
 
 - [ ] **Frontend React**: dashboard con gráficos de cumplimiento y detalle de hallazgos.
-- [ ] **Pipeline GitHub Actions**: lint, build y pruebas en cada push y pull request.
 - [ ] **Despliegue automático** a un servicio gratuito con base de datos PostgreSQL
       administrada.

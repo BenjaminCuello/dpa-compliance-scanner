@@ -47,6 +47,7 @@ asociados a la Ley 21.719 de protección de datos personales.
 | `npm run test:cov` | Pruebas unitarias con reporte de cobertura. |
 | `npm run test:e2e` | Pruebas de integración contra la API y la base de datos. |
 | `npm run lint` | Analiza y corrige el estilo del código. |
+| `npm run lint:ci` | Revisa el estilo sin corregir; es el que usa el pipeline. |
 | `npm run test:rules` | Verifica las reglas de Semgrep contra sus casos de prueba. |
 | `npm run migration:run` | Aplica las migraciones pendientes. |
 | `npm run migration:generate` | Genera una migración desde los cambios en las entidades. |
@@ -102,7 +103,8 @@ docker compose up -d db    # desde la raíz del repositorio
 npm run test:e2e
 ```
 
-Detalle en `test/README.md`.
+Detalle en `test/README.md`. El pipeline ejecuta estos mismos pasos en cada
+push y pull request: ver [docs/integracion-continua.md](../docs/integracion-continua.md).
 
 ## Despliegue detrás de un proxy
 

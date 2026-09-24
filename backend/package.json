@@ -13,6 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
+    "lint:ci": "eslint \"{src,test}/**/*.ts\" --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -107,7 +108,12 @@
         "lines": 85,
         "statements": 85
       }
-    }
+    },
+    "coverageReporters": [
+      "text-summary",
+      "lcov",
+      "json-summary"
+    ]
   },
   "overrides": {
     "multer": "2.3.0"

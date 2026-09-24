@@ -31,4 +31,17 @@ describe('SnakeNamingStrategy', () => {
   it('nombra las claves foráneas a partir de la relación', () => {
     expect(strategy.joinColumnName('project', 'id')).toBe('project_id');
   });
+
+  it('nombra las relaciones en snake_case', () => {
+    expect(strategy.relationName('checkResults')).toBe('check_results');
+  });
+
+  it('nombra las columnas de las tablas intermedias', () => {
+    expect(strategy.joinTableColumnName('audits', 'checkResult')).toBe(
+      'audits_check_result',
+    );
+    expect(
+      strategy.joinTableColumnName('audits', 'ignorado', 'projectId'),
+    ).toBe('audits_project_id');
+  });
 });

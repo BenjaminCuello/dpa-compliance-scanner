@@ -58,6 +58,14 @@ describe('AuditProjectResolver', () => {
     ).rejects.toBeInstanceOf(BadRequestException);
   });
 
+  it('propaga los errores que no son de validación de la URL', async () => {
+    projects.findOrCreate.mockRejectedValue(new Error('base de datos caída'));
+
+    await expect(
+      resolver.resolve(user, { repositoryUrl: 'https://github.com/org/repo' }),
+    ).rejects.toThrow('base de datos caída');
+  });
+
   it('convierte una URL inválida en un error de solicitud', async () => {
     await expect(
       resolver.resolve(user, { repositoryUrl: 'http://github.com/org/repo' }),

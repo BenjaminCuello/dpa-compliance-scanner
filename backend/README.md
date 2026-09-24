@@ -44,7 +44,8 @@ asociados a la Ley 21.719 de protección de datos personales.
 | `npm run start:dev` | Servidor en modo desarrollo con recarga automática. |
 | `npm run build` | Compila TypeScript a `dist/`. |
 | `npm test` | Ejecuta las pruebas unitarias. |
-| `npm run test:cov` | Pruebas con reporte de cobertura. |
+| `npm run test:cov` | Pruebas unitarias con reporte de cobertura. |
+| `npm run test:e2e` | Pruebas de integración contra la API y la base de datos. |
 | `npm run lint` | Analiza y corrige el estilo del código. |
 | `npm run test:rules` | Verifica las reglas de Semgrep contra sus casos de prueba. |
 | `npm run migration:run` | Aplica las migraciones pendientes. |
@@ -81,6 +82,27 @@ inicia sin ella. Ver `src/modules/auth/README.md`.
 inmediato; el avance y los resultados se consultan en `GET /audits/:id`, y el
 historial en `GET /audits`. Detalle del contrato y del ciclo de ejecución en
 `src/modules/audits/README.md`.
+
+## Pruebas
+
+Las pruebas unitarias acompañan al código en `src/` y no necesitan servicios
+externos:
+
+```bash
+npm test
+npm run test:cov
+```
+
+Las pruebas de integración levantan la aplicación completa y la consultan por
+HTTP, con PostgreSQL real; solo se reemplazan el clonado con git y la ejecución
+de Semgrep:
+
+```bash
+docker compose up -d db    # desde la raíz del repositorio
+npm run test:e2e
+```
+
+Detalle en `test/README.md`.
 
 ## Despliegue detrás de un proxy
 

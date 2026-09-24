@@ -69,6 +69,8 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
       secretos expuestos y configuraciones inseguras.
 - [x] Endpoints REST para iniciar auditorías de repositorios públicos,
       consultar sus resultados y revisar el historial.
+- [x] Pruebas unitarias y de integración del backend, estas últimas contra la
+      API y la base de datos reales.
 
 ### Pendiente
 

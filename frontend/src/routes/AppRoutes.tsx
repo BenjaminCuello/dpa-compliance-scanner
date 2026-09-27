@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
+import { AuditDetailPage } from '../pages/AuditDetailPage';
 import { AuditsPage } from '../pages/AuditsPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { LoginPage } from '../pages/LoginPage';
@@ -16,6 +17,7 @@ export function AppRoutes() {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/auditorias" element={<AuditsPage />} />
+          <Route path="/auditorias/:id" element={<AuditDetailPage />} />
         </Route>
       </Route>
 

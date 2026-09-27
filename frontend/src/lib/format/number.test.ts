@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EMPTY_PERCENT, formatPercent } from './number';
+import { EMPTY_PERCENT, formatPercent, formatScoreDelta } from './number';
 
 describe('formatPercent', () => {
   it.each([
@@ -14,5 +14,15 @@ describe('formatPercent', () => {
   it('devuelve un guion largo si no hay valor', () => {
     expect(formatPercent(null)).toBe(EMPTY_PERCENT);
     expect(formatPercent(undefined)).toBe(EMPTY_PERCENT);
+  });
+});
+
+describe('formatScoreDelta', () => {
+  it.each([
+    [4.5, '+4,5 pts'],
+    [-3, '-3,0 pts'],
+    [0, '0,0 pts'],
+  ])('formatea %s como %s', (value, expected) => {
+    expect(formatScoreDelta(value)).toBe(expected);
   });
 });

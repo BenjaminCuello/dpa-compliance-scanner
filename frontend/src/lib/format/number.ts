@@ -14,3 +14,14 @@ export function formatPercent(value: number | null | undefined): string {
 
   return `${percentFormatter.format(value)}%`;
 }
+
+const deltaFormatter = new Intl.NumberFormat('es-CL', {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+  signDisplay: 'exceptZero',
+});
+
+/** Variación en puntos porcentuales con signo, p. ej. `+4,5 pts`. */
+export function formatScoreDelta(value: number): string {
+  return `${deltaFormatter.format(value)} pts`;
+}

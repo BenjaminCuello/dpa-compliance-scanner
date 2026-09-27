@@ -10,5 +10,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    // Con toda la suite en paralelo, las pruebas que escriben con
+    // `user.type` pasan de 1 s a cerca de 5 s (el límite por defecto).
+    testTimeout: 15_000,
   },
 });

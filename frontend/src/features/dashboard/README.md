@@ -1,7 +1,7 @@
 # features/dashboard
 
-Capa de datos del panel de cumplimiento (`/dashboard`): carga, cálculos y
-colores de los gráficos. Todavía no contiene componentes visuales.
+Panel de cumplimiento (`/dashboard`): carga, cálculos, colores de los
+gráficos, filtro por proyecto y componentes visuales (en `components/`).
 
 ## De dónde salen los datos
 
@@ -48,14 +48,38 @@ informa `error` cuando falla el listado.
 - `useDashboardData.ts`: expone `summaries`, `latestDetails`, `isLoading`,
   `error`, `reload` e `isTruncated`. Al recargar conserva los datos
   anteriores mientras llegan los nuevos e ignora respuestas tardías.
-- `useChartColors.ts`: lee los tokens `--color-chart-*`, `--color-border`,
-  `--color-text` y `--color-text-muted` con `getComputedStyle`, porque
+- `projects.ts`: `projectOptions` (proyectos del historial, sin repetir y
+  ordenados por nombre, para el filtro) y `recentAudits` (las 5 primeras del
+  listado, de todos los proyectos o de uno).
+- `useProjectFilter.ts`: proyecto elegido, guardado en `?proyecto=<id>` con
+  `useSearchParams` para que el botón Atrás y los enlaces conserven la
+  selección. Con los datos ya cargados, un id que no existe vuelve a "Todos"
+  y limpia el parámetro sin agregar una entrada al historial.
+- `useChartColors.ts`: lee los tokens `--color-chart-*`, `--color-bg`,
+  `--color-border`, `--color-text` y `--color-text-muted` con `getComputedStyle`, porque
   Recharts necesita valores y no clases. Los vuelve a leer cuando cambia la
   clase de `<html>` (un `MutationObserver`), en lugar de usar `useTheme`: el
   `ThemeProvider` cambia la clase `dark` en un efecto que corre después de
   los efectos de sus hijos, así que leer en el efecto del hijo tomaría los
-  colores del tema anterior.
-- `testFixtures.ts`: `makeSummary` y `makeDetail` para las pruebas.
+  colores del tema anterior. `bg` se usa para el anillo de los puntos de la
+  línea y para el fondo de las etiquetas de valor.
+- `testFixtures.ts`: `makeSummary`, `makeDetail`, `makeDashboardState` (el
+  resultado de `useDashboardData`) y `sampleDashboard` (tres proyectos de
+  ejemplo) para las pruebas.
+- `components/`: tarjetas, gráficos, tablas y vistas del panel. Ver su
+  README.
+
+## Vistas
+
+- **Todos los proyectos**: indicadores, cumplimiento por proyecto (como
+  máximo los 10 de menor puntaje en el gráfico; la tabla los incluye todos),
+  hallazgos por severidad y controles más incumplidos (de los detalles
+  cargados) y las 5 auditorías más recientes.
+- **Un proyecto**: indicadores con la variación respecto de la auditoría
+  anterior, evolución del puntaje, hallazgos por severidad y controles
+  incumplidos de la última auditoría completada (todos, con
+  `topFailedControls([detalle], Infinity)`) y sus auditorías recientes. Si
+  el detalle de la última no se cargó, esas tarjetas lo avisan.
 
 ## Colores de los gráficos
 

@@ -56,7 +56,7 @@ export function AuditsPage() {
             <button
               type="button"
               onClick={focusRepositoryInput}
-              className="rounded bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
+              className="rounded bg-accent-strong px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong-hover"
             >
               Iniciar una auditoría
             </button>

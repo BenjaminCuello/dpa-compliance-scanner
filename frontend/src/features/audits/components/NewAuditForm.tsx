@@ -75,7 +75,7 @@ export function NewAuditForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex items-center gap-2 rounded bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
+        className="inline-flex items-center gap-2 rounded bg-accent-strong px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong-hover disabled:opacity-60"
       >
         <Play size={16} aria-hidden="true" />
         {isSubmitting ? 'Iniciando…' : 'Iniciar auditoría'}

@@ -24,8 +24,11 @@ Se definen en `@theme` (modo claro) y se redefinen en `:root.dark`.
 
 - `bg`, `bg-soft`, `surface`, `border`, `text`, `text-muted`: superficies y
   texto base.
-- `accent`, `success`, `warning`, `critical`: fondos, bordes, íconos y
-  botones.
+- `accent`, `success`, `warning`, `critical`: fondos, bordes, íconos,
+  enlaces y anillos de foco.
+- `accent-strong` y `accent-strong-hover`: fondo de los botones sólidos con
+  `text-white` y su hover. Tienen el mismo valor en ambos temas (5.93:1 y
+  7.56:1 con texto blanco); `bg-accent` con texto blanco no alcanza AA.
 - `accent-text`, `success-text`, `warning-text`, `critical-text`: las mismas
   intenciones para texto, con contraste de al menos 4.5:1 sobre `bg` y
   `surface` en ambos temas.

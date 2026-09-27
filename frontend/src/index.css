@@ -21,6 +21,10 @@
   --color-accent: #0ea5e9;
   --color-accent-hover: #0284c7;
 
+  /* Fondo de botones sólidos con texto blanco (AA en ambos temas). */
+  --color-accent-strong: #0369a1;
+  --color-accent-strong-hover: #075985;
+
   --color-success: #16a34a;
   --color-warning: #d97706;
   --color-critical: #dc2626;
@@ -50,6 +54,8 @@
   --color-text-muted: #a1a1aa;
 
   --color-accent: #38bdf8;
+  --color-accent-strong: #0369a1;
+  --color-accent-strong-hover: #075985;
 
   --color-success-text: #4ade80;
   --color-warning-text: #fbbf24;

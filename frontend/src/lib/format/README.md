@@ -7,6 +7,8 @@ Utilidades de formato para mostrar datos en la interfaz.
   `undefined`; si no hay fecha o no es válida devuelven `—` (`EMPTY_DATE`).
 - `number.ts`: `formatPercent` (`85,5%`), con un decimal y coma decimal;
   devuelve `—` (`EMPTY_PERCENT`) si el valor es `null` o `undefined`.
+  `formatScoreDelta` (`+4,5 pts`) muestra la variación del puntaje en puntos
+  porcentuales, con signo salvo en cero.
 
 ## Decisión de diseño
 

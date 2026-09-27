@@ -35,11 +35,23 @@
   --color-critical-text: #b91c1c;
   --color-accent-text: #0369a1;
 
-  /* Severidad de los controles (badges y gráficos), aptas para texto. */
+  /* Severidad de los controles en badges y texto (los gráficos usan chart-*). */
   --color-severity-critical: #b91c1c;
   --color-severity-high: #a8400c;
   --color-severity-medium: #854d0e;
   --color-severity-low: #475569;
+}
+
+/*
+ * Colores de los gráficos. `static` obliga a emitirlos aunque ninguna clase
+ * los use: Recharts los lee con `getComputedStyle` (ver useChartColors).
+ */
+@theme static {
+  --color-chart-primary: #0284c7;
+  --color-chart-severity-low: #fb923c;
+  --color-chart-severity-medium: #ea580c;
+  --color-chart-severity-high: #c2410c;
+  --color-chart-severity-critical: #7c2d12;
 }
 
 :root.dark {
@@ -66,6 +78,16 @@
   --color-severity-high: #fb923c;
   --color-severity-medium: #fbbf24;
   --color-severity-low: #94a3b8;
+
+  /*
+   * En oscuro la rampa de severidad se invierte a propósito: lo más severo es
+   * lo de más contraste con el fondo.
+   */
+  --color-chart-primary: #38bdf8;
+  --color-chart-severity-low: #9a3412;
+  --color-chart-severity-medium: #ea580c;
+  --color-chart-severity-high: #fb923c;
+  --color-chart-severity-critical: #fed7aa;
 }
 
 body {

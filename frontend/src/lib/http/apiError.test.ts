@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { extractErrorMessage } from './apiError';
+import { TOO_MANY_REQUESTS_MESSAGE, extractErrorMessage } from './apiError';
 
 function buildError(message: unknown) {
   return { response: { data: { message } } };
@@ -28,6 +28,17 @@ describe('extractErrorMessage', () => {
     });
 
     expect(extractErrorMessage(error)).toBe('La contraseña es obligatoria');
+  });
+
+  it('reemplaza el mensaje en inglés del límite de peticiones (429)', () => {
+    const error = {
+      response: {
+        status: 429,
+        data: { message: 'ThrottlerException: Too Many Requests' },
+      },
+    };
+
+    expect(extractErrorMessage(error)).toBe(TOO_MANY_REQUESTS_MESSAGE);
   });
 
   it('devuelve el mensaje por defecto cuando no hay información', () => {

@@ -13,6 +13,7 @@ function readColors(): ChartColors {
       high: read('--color-chart-severity-high'),
       critical: read('--color-chart-severity-critical'),
     },
+    bg: read('--color-bg'),
     border: read('--color-border'),
     text: read('--color-text'),
     textMuted: read('--color-text-muted'),

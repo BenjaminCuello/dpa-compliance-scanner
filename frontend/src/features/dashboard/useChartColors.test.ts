@@ -12,8 +12,16 @@ import { useChartColors } from './useChartColors';
 
 /** jsdom no carga Tailwind: se simulan los tokens de cada tema. */
 const TOKENS: Record<'light' | 'dark', Record<string, string>> = {
-  light: { '--color-chart-primary': '#0284c7', '--color-text': '#1a1d23' },
-  dark: { '--color-chart-primary': '#38bdf8', '--color-text': '#f4f4f5' },
+  light: {
+    '--color-chart-primary': '#0284c7',
+    '--color-text': '#1a1d23',
+    '--color-bg': '#ffffff',
+  },
+  dark: {
+    '--color-chart-primary': '#38bdf8',
+    '--color-text': '#f4f4f5',
+    '--color-bg': '#18181b',
+  },
 };
 
 const root = document.documentElement;
@@ -39,10 +47,12 @@ describe('useChartColors', () => {
     const { result } = renderHook(() => useChartColors());
     expect(result.current.primary).toBe('#0284c7');
     expect(result.current.text).toBe('#1a1d23');
+    expect(result.current.bg).toBe('#ffffff');
 
     root.classList.add('dark');
     await waitFor(() => expect(result.current.primary).toBe('#38bdf8'));
     expect(result.current.text).toBe('#f4f4f5');
+    expect(result.current.bg).toBe('#18181b');
 
     root.classList.remove('dark');
     await waitFor(() => expect(result.current.primary).toBe('#0284c7'));

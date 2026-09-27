@@ -64,6 +64,8 @@ export interface DashboardData {
 export interface ChartColors {
   primary: string;
   severity: Record<CheckSeverity, string>;
+  /** Fondo principal: anillo de los puntos de la línea. */
+  bg: string;
   border: string;
   text: string;
   textMuted: string;

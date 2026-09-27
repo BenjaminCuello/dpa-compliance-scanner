@@ -3,8 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans:
-    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   --color-bg: #ffffff;
@@ -22,9 +21,25 @@
   --color-accent: #0ea5e9;
   --color-accent-hover: #0284c7;
 
+  /* Fondo de botones sólidos con texto blanco (AA en ambos temas). */
+  --color-accent-strong: #0369a1;
+  --color-accent-strong-hover: #075985;
+
   --color-success: #16a34a;
   --color-warning: #d97706;
   --color-critical: #dc2626;
+
+  /* Variantes para texto: contraste de al menos 4.5:1 sobre bg y surface. */
+  --color-success-text: #166534;
+  --color-warning-text: #92400e;
+  --color-critical-text: #b91c1c;
+  --color-accent-text: #0369a1;
+
+  /* Severidad de los controles (badges y gráficos), aptas para texto. */
+  --color-severity-critical: #b91c1c;
+  --color-severity-high: #a8400c;
+  --color-severity-medium: #854d0e;
+  --color-severity-low: #475569;
 }
 
 :root.dark {
@@ -39,6 +54,18 @@
   --color-text-muted: #a1a1aa;
 
   --color-accent: #38bdf8;
+  --color-accent-strong: #0369a1;
+  --color-accent-strong-hover: #075985;
+
+  --color-success-text: #4ade80;
+  --color-warning-text: #fbbf24;
+  --color-critical-text: #f87171;
+  --color-accent-text: #38bdf8;
+
+  --color-severity-critical: #f87171;
+  --color-severity-high: #fb923c;
+  --color-severity-medium: #fbbf24;
+  --color-severity-low: #94a3b8;
 }
 
 body {

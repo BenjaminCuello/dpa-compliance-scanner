@@ -11,6 +11,8 @@ Cliente HTTP compartido para hablar con la API del backend.
   expirada o a un login/registro con credenciales inválidas.
 - `apiError.ts`: extrae un mensaje de error legible desde el formato de
   respuesta de error del backend (`{ statusCode, path, timestamp, message }`).
+  Ante un 429 devuelve un mensaje propio en español, porque el backend
+  responde con el texto por defecto de `ThrottlerGuard` en inglés.
 
 ## Decisión de diseño
 

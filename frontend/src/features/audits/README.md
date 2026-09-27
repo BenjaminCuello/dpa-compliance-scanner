@@ -1,7 +1,9 @@
 # features/audits
 
-Capa de datos de las auditorías: iniciar una auditoría, consultar el historial
-y seguir el avance de una auditoría hasta que termina. No contiene UI.
+Dominio de las auditorías: iniciar una auditoría, consultar el historial y
+seguir el avance de una auditoría hasta que termina. La capa de datos está en
+la raíz de la carpeta y los componentes visuales del dominio en
+`components/`.
 
 - `types.ts`: tipos que reflejan los DTOs del backend (`StartAuditDto`,
   `ListAuditsQueryDto`, `AuditSummaryDto`, `AuditListDto`, `AuditDetailDto` y
@@ -23,6 +25,30 @@ y seguir el avance de una auditoría hasta que termina. No contiene UI.
 - `useAuditHistory.ts`: historial paginado y filtrado. Expone
   `{ data, error, isLoading, reload }` y conserva la página anterior mientras
   carga la siguiente.
+- `useStartAudit.ts`: inicia una auditoría (repositorio nuevo o
+  `{ projectId }`) y navega a `/auditorias/:id`. Expone
+  `{ start, isSubmitting, error, clearError }`; `error` ya viene legible.
+
+## components/
+
+Componentes que dependen de los tipos, textos o umbrales del dominio. Los
+genéricos (badge base, estados de carga, vacío y error, paginación) están en
+`src/components/`.
+
+- `AuditStatusBadge.tsx`, `CheckStatusBadge.tsx`: estado de la auditoría y
+  resultado del control con texto de `labels.ts`, ícono y color.
+- `SeverityBadge.tsx`: severidad con los tokens `severity-*` de `index.css`.
+- `ComplianceScore.tsx`: puntaje con un decimal (`85,5%`) o `—`, coloreado
+  según `compliance.ts`; el nivel ("Bueno", "Regular", "Bajo") queda como
+  texto para lectores de pantalla y en el `title`.
+- `NewAuditForm.tsx`: formulario "Nueva auditoría" (URL del repositorio y
+  nombre opcional).
+- `AuditHistoryFilter.tsx`: selector de estado con "Todos".
+- `AuditHistoryTable.tsx` y `AuditHistoryRow.tsx`: tabla del historial con
+  scroll horizontal propio y la acción "Volver a auditar", deshabilitada
+  mientras la auditoría está en `pending` o `running`. El acceso al detalle
+  por teclado es el enlace del nombre del proyecto; el clic en el resto de la
+  fila es un atajo para el mouse.
 
 ## Decisiones de diseño
 

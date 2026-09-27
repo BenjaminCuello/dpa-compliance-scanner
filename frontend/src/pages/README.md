@@ -9,8 +9,10 @@ conecta con `src/routes/AppRoutes.tsx`.
   para crear la cuenta y autenticarla.
 - `DashboardPage.tsx`: panel principal de cumplimiento (contenido pendiente
   para una etapa posterior).
-- `AuditsPage.tsx`: listado de auditorías (contenido pendiente para una
-  etapa posterior).
+- `AuditsPage.tsx`: ruta `/auditorias`. Formulario para iniciar una
+  auditoría e historial paginado (20 por página) con filtro por estado; al
+  cambiar el filtro vuelve a la página 1. Compone los componentes de
+  `src/features/audits/components/`.
 
 Las páginas no deberían contener lógica de negocio compleja: esa lógica vive
 en `src/features/`.

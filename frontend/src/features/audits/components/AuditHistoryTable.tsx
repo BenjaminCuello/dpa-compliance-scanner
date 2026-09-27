@@ -56,6 +56,7 @@ export function AuditHistoryTable({
                 audit={audit}
                 onReaudit={handleReaudit}
                 isReauditing={isSubmitting && reauditingId === audit.project.id}
+                isReauditLocked={isSubmitting}
               />
             ))}
           </tbody>

@@ -51,9 +51,10 @@ genéricos (badge base, estados de carga, vacío y error, paginación) están en
 - `AuditHistoryFilter.tsx`: selector de estado con "Todos".
 - `AuditHistoryTable.tsx` y `AuditHistoryRow.tsx`: tabla del historial con
   scroll horizontal propio y la acción "Volver a auditar", deshabilitada
-  mientras la auditoría está en `pending` o `running`. El acceso al detalle
-  por teclado es el enlace del nombre del proyecto; el clic en el resto de la
-  fila es un atajo para el mouse.
+  mientras la auditoría está en `pending` o `running` y, en todas las filas,
+  mientras se envía una re-auditoría (solo la fila enviada muestra
+  "Iniciando…"). El acceso al detalle por teclado es el enlace del nombre
+  del proyecto; el clic en el resto de la fila es un atajo para el mouse.
 - `AuditDetailHeader.tsx`: encabezado del detalle con el nombre del
   proyecto, la URL del repositorio (enlace externo en mono), el estado, el
   puntaje y las fechas de inicio y término. En `completed` y `failed` incluye

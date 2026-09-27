@@ -11,6 +11,8 @@ interface AuditHistoryRowProps {
   onReaudit: (projectId: string) => void;
   /** `true` mientras se re-audita el proyecto de esta fila. */
   isReauditing: boolean;
+  /** `true` mientras se envía cualquier re-auditoría del historial. */
+  isReauditLocked: boolean;
 }
 
 /**
@@ -21,6 +23,7 @@ export function AuditHistoryRow({
   audit,
   onReaudit,
   isReauditing,
+  isReauditLocked,
 }: AuditHistoryRowProps) {
   const navigate = useNavigate();
   const { project } = audit;
@@ -65,7 +68,7 @@ export function AuditHistoryRow({
         <button
           type="button"
           onClick={() => onReaudit(project.id)}
-          disabled={isActive || isReauditing}
+          disabled={isActive || isReauditLocked}
           title={isActive ? 'La auditoría aún está en curso' : undefined}
           className="inline-flex items-center gap-1 rounded-md border border-border bg-bg px-2.5 py-1 text-xs font-medium whitespace-nowrap text-text transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-50"
         >

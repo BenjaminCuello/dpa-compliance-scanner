@@ -13,7 +13,8 @@ Código fuente de la aplicación React.
 - `layouts/`: estructuras de página compartidas por las vistas autenticadas.
 - `lib/`: utilidades técnicas transversales, como el cliente HTTP
   (`lib/http/`) y los formatos de fecha y número (`lib/format/`).
-- `pages/`: componentes de página, uno por ruta.
+- `pages/`: componentes de página, uno por ruta (panel, auditorías, detalle
+  de auditoría, inicio de sesión y registro).
 - `routes/`: definición de rutas y guardas de rutas privadas.
 - `test/`: configuración compartida para las pruebas con Vitest.
 

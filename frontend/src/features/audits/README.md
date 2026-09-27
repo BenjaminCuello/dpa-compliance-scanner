@@ -15,6 +15,11 @@ la raíz de la carpeta y los componentes visuales del dominio en
   filtros vacíos.
 - `labels.ts`: textos en español de estados y severidades, y `SEVERITY_ORDER`
   / `compareSeverity` para ordenar de más a menos severo.
+- `checks.ts`: `sortChecks`, que ordena los controles del detalle:
+  incumplidos de mayor a menor severidad, luego aprobados y al final
+  omitidos.
+- `testFixtures.ts`: `makeCheck` y `makeAuditDetail`, datos de ejemplo para
+  las pruebas. Solo se importan desde archivos `*.test.ts(x)`.
 - `compliance.ts`: umbrales del puntaje de cumplimiento y
   `classifyComplianceScore`, que devuelve `good`, `fair`, `low` o `none`
   (sin puntaje). Pensado para reutilizarse en el dashboard.
@@ -27,7 +32,7 @@ la raíz de la carpeta y los componentes visuales del dominio en
   carga la siguiente.
 - `useStartAudit.ts`: inicia una auditoría (repositorio nuevo o
   `{ projectId }`) y navega a `/auditorias/:id`. Expone
-  `{ start, isSubmitting, error, clearError }`; `error` ya viene legible.
+  `{ start, isSubmitting, error }`; `error` ya viene legible.
 
 ## components/
 
@@ -49,8 +54,32 @@ genéricos (badge base, estados de carga, vacío y error, paginación) están en
   mientras la auditoría está en `pending` o `running`. El acceso al detalle
   por teclado es el enlace del nombre del proyecto; el clic en el resto de la
   fila es un atajo para el mouse.
+- `AuditDetailHeader.tsx`: encabezado del detalle con el nombre del
+  proyecto, la URL del repositorio (enlace externo en mono), el estado, el
+  puntaje y las fechas de inicio y término. En `completed` y `failed` incluye
+  `ReauditButton`.
+- `ReauditButton.tsx`: "Volver a auditar" desde el detalle. Usa
+  `useStartAudit` con `{ projectId }` y muestra bajo el botón el error del
+  backend (p. ej. el 409 por auditoría en curso).
+- `AuditProgress.tsx`: avance de una auditoría en `pending` o `running`,
+  dentro de una región `aria-live="polite"`.
+- `AuditTotalsCards.tsx`: tarjetas de controles evaluados, aprobados,
+  incumplidos y hallazgos totales, y los hallazgos por severidad (sin
+  gráfico).
+- `AuditChecksList.tsx`, `AuditCheckItem.tsx` y `CheckFindings.tsx`: lista de
+  controles ordenada con `sortChecks`. Cada control muestra código, título,
+  categoría, severidad y estado; los incumplidos tienen un botón con
+  `aria-expanded` y `aria-controls` que despliega la remediación y los
+  hallazgos (`ruta:línea` en mono).
 
 ## Decisiones de diseño
+
+- **Orden de los controles:** primero lo que requiere acción. Los
+  incumplidos van de mayor a menor severidad; dentro de cada grupo se
+  respeta el orden del backend (`sort` es estable).
+- **Panel de hallazgos siempre en el DOM:** el panel de un control
+  incumplido se oculta con `hidden` en lugar de desmontarse, así
+  `aria-controls` siempre apunta a un elemento existente.
 
 - **Polling con `setTimeout` encadenado** en vez de `setInterval`: la
   siguiente consulta se programa solo cuando termina la anterior, así nunca

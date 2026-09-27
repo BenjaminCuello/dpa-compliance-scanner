@@ -13,6 +13,13 @@ conecta con `src/routes/AppRoutes.tsx`.
   auditoría e historial paginado (20 por página) con filtro por estado; al
   cambiar el filtro vuelve a la página 1. Compone los componentes de
   `src/features/audits/components/`.
+- `AuditDetailPage.tsx`: ruta `/auditorias/:id`. Usa `useAuditPolling` y
+  muestra el encabezado de la auditoría y, según su estado, el progreso
+  (`pending` / `running`), el aviso con `errorMessage` (`failed`) o los
+  totales y la lista de controles (`completed`). Si la auditoría no existe,
+  es ajena o el id no es válido, muestra "Auditoría no encontrada" con un
+  enlace al historial. Si una consulta falla con la auditoría ya cargada,
+  conserva lo que había y ofrece "Reintentar".
 
 Las páginas no deberían contener lógica de negocio compleja: esa lógica vive
 en `src/features/`.

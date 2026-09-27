@@ -30,7 +30,5 @@ export function useStartAudit() {
     [navigate],
   );
 
-  const clearError = useCallback(() => setError(null), []);
-
-  return { start, isSubmitting, error, clearError };
+  return { start, isSubmitting, error };
 }

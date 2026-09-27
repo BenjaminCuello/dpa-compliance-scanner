@@ -14,7 +14,7 @@ import type { AuditStatus } from '../features/audits/types';
 import { useAuditHistory } from '../features/audits/useAuditHistory';
 
 /** Auditorías por página del historial. */
-export const PAGE_SIZE = 20;
+const PAGE_SIZE = 20;
 
 function focusRepositoryInput() {
   document.getElementById(REPOSITORY_URL_INPUT_ID)?.focus();

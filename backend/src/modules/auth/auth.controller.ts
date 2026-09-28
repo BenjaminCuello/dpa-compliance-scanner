@@ -8,13 +8,18 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { ApiErrorResponses } from '../../common/swagger/api-error-responses.decorator';
+import {
+  httpError,
+  tooManyRequestsError,
+  unauthorizedError,
+  validationError,
+} from '../../common/swagger/error-examples';
 import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser, Public } from './decorators';
@@ -31,7 +36,20 @@ export class AuthController {
   @Post('register')
   @ApiOperation({ summary: 'Crea una cuenta y devuelve un token' })
   @ApiCreatedResponse({ type: AuthResponseDto })
-  @ApiConflictResponse({ description: 'El correo ya está registrado' })
+  @ApiErrorResponses(
+    validationError('/api/auth/register', [
+      'El correo no tiene un formato válido',
+      'La contraseña debe tener al menos 10 caracteres',
+      'La contraseña debe incluir al menos una minúscula, una mayúscula y un número',
+    ]),
+    httpError(
+      409,
+      '/api/auth/register',
+      'El correo ya está registrado',
+      'El correo ya está registrado',
+    ),
+    tooManyRequestsError('/api/auth/register'),
+  )
   register(@Body() dto: RegisterDto): Promise<AuthResponseDto> {
     return this.authService.register(dto);
   }
@@ -41,7 +59,19 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Valida las credenciales y devuelve un token' })
   @ApiOkResponse({ type: AuthResponseDto })
-  @ApiUnauthorizedResponse({ description: 'Credenciales inválidas' })
+  @ApiErrorResponses(
+    validationError('/api/auth/login', [
+      'El correo es obligatorio',
+      'La contraseña es obligatoria',
+    ]),
+    httpError(
+      401,
+      '/api/auth/login',
+      'Credenciales inválidas',
+      'Credenciales inválidas',
+    ),
+    tooManyRequestsError('/api/auth/login'),
+  )
   login(@Body() dto: LoginDto): Promise<AuthResponseDto> {
     return this.authService.login(dto);
   }
@@ -50,7 +80,10 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Devuelve los datos del usuario autenticado' })
   @ApiOkResponse({ type: AuthenticatedUserDto })
-  @ApiUnauthorizedResponse({ description: 'Token ausente o inválido' })
+  @ApiErrorResponses(
+    unauthorizedError('/api/auth/profile'),
+    tooManyRequestsError('/api/auth/profile'),
+  )
   profile(@CurrentUser() user: User): AuthenticatedUserDto {
     return { id: user.id, email: user.email, name: user.name };
   }

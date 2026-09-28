@@ -14,13 +14,16 @@ import {
 
 /** Datos que entrega quien crea una cuenta. */
 export class RegisterDto {
-  @ApiProperty({ example: 'ana@ejemplo.cl' })
+  @ApiProperty({
+    example: 'ana@ejemplo.cl',
+    description: 'Correo único, máximo 180 caracteres',
+  })
   @MaxLength(180, { message: 'El correo no puede superar los 180 caracteres' })
   @IsEmail({}, { message: 'El correo no tiene un formato válido' })
   @IsNotEmpty({ message: 'El correo es obligatorio' })
   email: string;
 
-  @ApiProperty({ example: 'Ana Pérez' })
+  @ApiProperty({ example: 'Ana Pérez', description: 'Máximo 120 caracteres' })
   @MaxLength(120, { message: 'El nombre no puede superar los 120 caracteres' })
   @IsString({ message: 'El nombre debe ser texto' })
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
@@ -29,7 +32,7 @@ export class RegisterDto {
   @ApiProperty({
     example: 'Clave.Segura2026',
     description:
-      'Mínimo 10 caracteres, con al menos una minúscula, una mayúscula y un número',
+      'Entre 10 y 72 caracteres, con al menos una minúscula, una mayúscula y un número',
   })
   @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
     message:

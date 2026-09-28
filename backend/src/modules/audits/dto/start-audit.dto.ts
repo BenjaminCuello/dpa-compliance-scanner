@@ -42,9 +42,27 @@ export class StartAuditDto {
   projectName?: string;
 
   @ApiPropertyOptional({
-    description: 'Proyecto ya registrado que se quiere volver a auditar.',
+    format: 'uuid',
+    example: '0f8fad5b-d9cb-469f-a165-70867728950e',
+    description:
+      'Proyecto ya registrado que se quiere volver a auditar. No se combina con repositoryUrl.',
   })
   @IsOptional()
   @IsUUID('4', { message: 'El identificador del proyecto no es válido' })
   projectId?: string;
 }
+
+/** Ejemplos del cuerpo para Swagger: un caso por cada forma válida. */
+export const START_AUDIT_EXAMPLES = {
+  repositorio: {
+    summary: 'Repositorio nuevo',
+    value: {
+      repositoryUrl: 'https://github.com/organizacion/proyecto',
+      projectName: 'Portal de clientes',
+    },
+  },
+  proyecto: {
+    summary: 'Proyecto ya registrado',
+    value: { projectId: '0f8fad5b-d9cb-469f-a165-70867728950e' },
+  },
+};

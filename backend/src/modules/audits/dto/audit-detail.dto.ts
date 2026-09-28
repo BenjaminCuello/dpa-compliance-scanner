@@ -2,16 +2,28 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CheckSeverity, CheckStatus } from '../enums';
 import { AuditSummaryDto } from './audit-summary.dto';
 
+/** Hallazgo concreto de un control incumplido. */
 export class AuditFindingDto {
   @ApiProperty({
+    description: 'Descripción del hallazgo',
     example: 'La credencial "dbPassword" está escrita en el código.',
   })
   message: string;
 
-  @ApiProperty({ type: String, nullable: true, example: 'src/database.ts' })
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    example: 'src/database.ts',
+    description: 'Archivo del repositorio, si aplica',
+  })
   filePath: string | null;
 
-  @ApiProperty({ type: Number, nullable: true, example: 12 })
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 12,
+    description: 'Línea del archivo, si aplica',
+  })
   line: number | null;
 }
 
@@ -26,19 +38,26 @@ export class AuditCheckDto {
   @ApiPropertyOptional({ example: 'secrets' })
   category?: string;
 
-  @ApiProperty({ enum: CheckSeverity })
+  @ApiProperty({ enum: CheckSeverity, example: CheckSeverity.CRITICAL })
   severity: CheckSeverity;
 
-  @ApiProperty({ enum: CheckStatus })
+  @ApiProperty({ enum: CheckStatus, example: CheckStatus.FAILED })
   status: CheckStatus;
 
-  @ApiPropertyOptional({ description: 'Cómo corregir el incumplimiento' })
+  @ApiPropertyOptional({
+    description: 'Cómo corregir el incumplimiento',
+    example: 'Mueve la credencial a una variable de entorno.',
+  })
   remediation?: string;
 
-  @ApiProperty({ type: [AuditFindingDto] })
+  @ApiProperty({
+    type: [AuditFindingDto],
+    description: 'Hallazgos; vacío si el control se aprobó',
+  })
   findings: AuditFindingDto[];
 }
 
+/** Resumen numérico de los controles y hallazgos. */
 export class AuditTotalsDto {
   @ApiProperty({ example: 9 })
   totalChecks: number;

@@ -2,11 +2,13 @@ import { ShieldCheck } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { usePageTitle } from '../lib/document/usePageTitle';
 import { extractErrorMessage } from '../lib/http/apiError';
 import { useAuth } from '../features/auth/useAuth';
 
 export function RegisterPage() {
   const { register } = useAuth();
+  usePageTitle('Crear cuenta');
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

@@ -26,6 +26,7 @@ del `.env` debe apuntar al backend (por defecto `http://localhost:3000/api`).
 | `npm run build` | Compila TypeScript y genera el build de producción en `dist/`. |
 | `npm run preview` | Sirve localmente el build de producción. |
 | `npm run lint` | Corre ESLint sobre todo el proyecto. |
+| `npm run lint:ci` | Igual que `lint`, pero cualquier advertencia hace fallar el comando (lo usa el CI). |
 | `npm run format` | Formatea el código con Prettier. |
 | `npm test` | Corre las pruebas unitarias con Vitest. |
 
@@ -41,12 +42,26 @@ del `.env` debe apuntar al backend (por defecto `http://localhost:3000/api`).
 
 ```
 src/
-├── features/   # Lógica de negocio por dominio (ver src/README.md)
-├── layouts/    # Estructuras de página compartidas (header, sidebar)
-├── lib/        # Utilidades técnicas transversales (cliente HTTP, etc.)
-├── pages/      # Componentes de página asociados a una ruta
-├── routes/     # Definición de rutas y protección de rutas privadas
-└── test/       # Configuración compartida de pruebas
+├── components/      # Componentes de interfaz genéricos (badges, estados, paginación)
+├── features/
+│   ├── auth/        # Sesión: registro, inicio de sesión y perfil
+│   ├── audits/      # Auditorías: inicio, historial, seguimiento y detalle
+│   ├── dashboard/   # Panel de cumplimiento: agregaciones y gráficos
+│   └── theme/       # Modo claro y oscuro
+├── layouts/         # Estructura de las vistas autenticadas (sidebar)
+├── lib/
+│   ├── document/    # Título de la pestaña por página
+│   ├── format/      # Formato de fechas y porcentajes
+│   └── http/        # Cliente Axios, token y sesión expirada
+├── pages/           # Componentes de página asociados a una ruta
+├── routes/          # Definición de rutas y protección de rutas privadas
+└── test/            # Configuración compartida de pruebas
 ```
 
 Cada una de estas carpetas incluye su propio `README.md` con más detalle.
+
+## Integración continua
+
+El trabajo "Frontend" del workflow de CI ejecuta `npm ci`, `npm run lint:ci`,
+`npm test` y `npm run build`. Detalle en
+[docs/integracion-continua.md](../docs/integracion-continua.md).

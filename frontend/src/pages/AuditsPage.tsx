@@ -12,6 +12,7 @@ import {
 } from '../features/audits/components/NewAuditForm';
 import type { AuditStatus } from '../features/audits/types';
 import { useAuditHistory } from '../features/audits/useAuditHistory';
+import { usePageTitle } from '../lib/document/usePageTitle';
 
 /** Auditorías por página del historial. */
 const PAGE_SIZE = 20;
@@ -21,6 +22,7 @@ function focusRepositoryInput() {
 }
 
 export function AuditsPage() {
+  usePageTitle('Auditorías');
   const [status, setStatus] = useState<AuditStatus | ''>('');
   const [page, setPage] = useState(1);
   const { data, error, isLoading, reload } = useAuditHistory({

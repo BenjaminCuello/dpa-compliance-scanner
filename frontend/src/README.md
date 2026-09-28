@@ -9,10 +9,11 @@ Código fuente de la aplicación React.
   temas (ver abajo).
 - `components/`: componentes de interfaz genéricos, sin lógica de dominio.
 - `features/`: lógica y componentes agrupados por dominio (`auth`, `audits`,
-  `theme`).
+  `dashboard`, `theme`).
 - `layouts/`: estructuras de página compartidas por las vistas autenticadas.
-- `lib/`: utilidades técnicas transversales, como el cliente HTTP
-  (`lib/http/`) y los formatos de fecha y número (`lib/format/`).
+- `lib/`: utilidades técnicas transversales: el cliente HTTP (`lib/http/`),
+  los formatos de fecha y número (`lib/format/`) y el título de la pestaña
+  (`lib/document/`).
 - `pages/`: componentes de página, uno por ruta (panel, auditorías, detalle
   de auditoría, inicio de sesión y registro).
 - `routes/`: definición de rutas y guardas de rutas privadas.
@@ -23,7 +24,10 @@ Código fuente de la aplicación React.
 Se definen en `@theme` (modo claro) y se redefinen en `:root.dark`.
 
 - `bg`, `bg-soft`, `surface`, `border`, `text`, `text-muted`: superficies y
-  texto base.
+  texto base. `text-muted` tiene al menos 4.5:1 sobre `bg`, `bg-soft` y
+  `surface` en ambos temas.
+- `index.html` aplica la clase `dark` con un script en línea antes de cargar
+  la app, para que el modo oscuro no muestre un destello claro al recargar.
 - `accent`, `success`, `warning`, `critical`: fondos, bordes, íconos,
   enlaces y anillos de foco.
 - `accent-strong` y `accent-strong-hover`: fondo de los botones sólidos con

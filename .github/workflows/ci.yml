@@ -108,3 +108,33 @@ jobs:
 
       - name: Construir la imagen de producción
         run: docker build --target production -t dpa-compliance-scanner-backend:ci .
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+
+    # El directorio por defecto del workflow es backend/.
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Revisar estilo
+        run: npm run lint:ci
+
+      - name: Pruebas unitarias
+        run: npm test
+
+      - name: Compilar
+        run: npm run build

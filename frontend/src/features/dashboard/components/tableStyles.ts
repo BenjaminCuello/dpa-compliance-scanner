@@ -1,5 +1,9 @@
-/** Contenedor de tabla con su propio scroll horizontal. */
-export const TABLE_WRAPPER = 'overflow-x-auto rounded-md border border-border';
+/**
+ * Contenedor de tabla con su propio scroll horizontal. `relative` mantiene
+ * dentro del recorte los textos `sr-only` (absolutos) de las celdas.
+ */
+export const TABLE_WRAPPER =
+  'relative overflow-x-auto rounded-md border border-border';
 /** Cabecera de columna: sin mayúsculas sostenidas. */
 export const TH = 'px-2 py-2 text-xs font-medium text-text-muted';
 /** Celda estándar. */

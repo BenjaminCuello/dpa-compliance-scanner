@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { isSessionExpired } from './sessionExpiry';
+import { handleSessionExpired } from './sessionExpiry';
 import { tokenStorage } from './tokenStorage';
 
 const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api';
@@ -20,11 +20,7 @@ httpClient.interceptors.request.use((config) => {
 httpClient.interceptors.response.use(
   (response) => response,
   (error: unknown) => {
-    if (isSessionExpired(error) && window.location.pathname !== '/login') {
-      tokenStorage.clear();
-      window.location.assign('/login');
-    }
-
+    handleSessionExpired(error);
     return Promise.reject(error);
   },
 );

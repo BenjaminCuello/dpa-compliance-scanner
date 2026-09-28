@@ -127,4 +127,13 @@ describe('AuditDetailPage', () => {
     ).toBeInTheDocument();
     expect(getById).toHaveBeenLastCalledWith('a2');
   });
+
+  it('titula la pestaña con el proyecto cuando la auditoría carga', async () => {
+    getById.mockResolvedValue(detail('a1', 'completed'));
+    renderPage();
+
+    expect(document.title).toBe('Auditoría · DPA Compliance Scanner');
+    await screen.findByRole('list', { name: 'Controles evaluados' });
+    expect(document.title).toBe('Auditoría de Portal · DPA Compliance Scanner');
+  });
 });

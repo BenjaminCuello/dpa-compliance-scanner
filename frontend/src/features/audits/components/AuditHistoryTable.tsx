@@ -31,7 +31,7 @@ export function AuditHistoryTable({
 
       <div
         aria-busy={isRefreshing}
-        className={`overflow-x-auto rounded-md border border-border transition-opacity ${
+        className={`relative overflow-x-auto rounded-md border border-border transition-opacity ${
           isRefreshing ? 'opacity-60' : ''
         }`}
       >

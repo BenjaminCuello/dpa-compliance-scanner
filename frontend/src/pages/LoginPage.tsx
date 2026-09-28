@@ -1,13 +1,23 @@
 import { ShieldCheck } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { InfoNotice } from '../components/InfoNotice';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { usePageTitle } from '../lib/document/usePageTitle';
 import { extractErrorMessage } from '../lib/http/apiError';
+import {
+  SESSION_EXPIRED_PARAM,
+  SESSION_EXPIRED_VALUE,
+} from '../lib/http/sessionExpiry';
 import { useAuth } from '../features/auth/useAuth';
 
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sessionExpired =
+    searchParams.get(SESSION_EXPIRED_PARAM) === SESSION_EXPIRED_VALUE;
+  usePageTitle('Iniciar sesión');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +30,7 @@ export function LoginPage() {
 
     try {
       await login({ email, password });
+      // Sin `?sesion=expirada`: el aviso no debe sobrevivir al login.
       navigate('/dashboard', { replace: true });
     } catch (err) {
       setError(extractErrorMessage(err));
@@ -46,6 +57,10 @@ export function LoginPage() {
         </div>
 
         <h1 className="text-xl font-semibold text-text">Iniciar sesión</h1>
+
+        {sessionExpired && !error && (
+          <InfoNotice>Tu sesión expiró. Inicia sesión nuevamente.</InfoNotice>
+        )}
 
         {error && (
           <p className="rounded-md border border-critical/20 bg-critical/10 p-2 text-sm text-critical">

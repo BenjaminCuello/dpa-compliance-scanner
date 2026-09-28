@@ -11,8 +11,10 @@ import { MAX_PAGES, PAGE_LIMIT } from '../features/dashboard/loadDashboardData';
 import { projectOptions } from '../features/dashboard/projects';
 import { useDashboardData } from '../features/dashboard/useDashboardData';
 import { useProjectFilter } from '../features/dashboard/useProjectFilter';
+import { usePageTitle } from '../lib/document/usePageTitle';
 
 export function DashboardPage() {
+  usePageTitle('Panel');
   const { summaries, latestDetails, isTruncated, isLoading, error, reload } =
     useDashboardData();
   const projects = useMemo(() => projectOptions(summaries), [summaries]);
@@ -80,7 +82,7 @@ export function DashboardPage() {
           </p>
         </div>
         {hasData && (
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex max-w-full min-w-0 flex-wrap items-center gap-3">
             <ProjectFilter
               projects={projects}
               value={projectId}

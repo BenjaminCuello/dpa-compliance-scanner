@@ -13,6 +13,7 @@ const links = [
   { to: '/auditorias', label: 'Auditorías', icon: ClipboardCheck },
 ];
 
+/** Bajo `md` el sidebar se reduce a íconos; los nombres quedan en `aria-label`. */
 export function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ export function Sidebar() {
   };
 
   return (
-    <nav className="flex w-56 shrink-0 flex-col bg-sidebar-bg p-4">
-      <div className="mb-6 flex items-center gap-2 px-2">
-        <ShieldCheck size={20} className="text-accent" />
-        <span className="text-sm font-semibold text-sidebar-text">
+    <nav className="flex w-16 shrink-0 flex-col bg-sidebar-bg p-2 md:w-56 md:p-4">
+      <div className="mb-6 flex items-center justify-center gap-2 px-2 py-2 md:justify-start md:py-0">
+        <ShieldCheck size={20} aria-hidden="true" className="text-accent" />
+        <span className="hidden text-sm font-semibold text-sidebar-text md:inline">
           DPA Compliance Scanner
         </span>
       </div>
@@ -36,8 +37,10 @@ export function Sidebar() {
           <li key={to}>
             <NavLink
               to={to}
+              aria-label={label}
+              title={label}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded px-3 py-2 text-sm font-medium transition-colors ${
+                `flex items-center justify-center gap-3 rounded px-3 py-2 text-sm font-medium transition-colors md:justify-start ${
                   isActive
                     ? 'bg-white/10 text-sidebar-text'
                     : 'text-sidebar-text-muted hover:bg-white/5 hover:text-sidebar-text'
@@ -46,8 +49,12 @@ export function Sidebar() {
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={20} className={isActive ? 'text-accent' : ''} />
-                  {label}
+                  <Icon
+                    size={20}
+                    aria-hidden="true"
+                    className={isActive ? 'text-accent' : ''}
+                  />
+                  <span className="hidden md:inline">{label}</span>
                 </>
               )}
             </NavLink>
@@ -56,9 +63,9 @@ export function Sidebar() {
       </ul>
 
       <div className="mt-auto space-y-3 border-t border-border pt-4">
-        <div className="flex items-center justify-between px-2">
+        <div className="flex items-center justify-center px-2 md:justify-between">
           {user && (
-            <span className="truncate text-sm text-sidebar-text-muted">
+            <span className="hidden truncate text-sm text-sidebar-text-muted md:inline">
               {user.name}
             </span>
           )}
@@ -68,10 +75,12 @@ export function Sidebar() {
         <button
           type="button"
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded px-3 py-2 text-sm font-medium text-sidebar-text-muted transition-colors hover:bg-white/5 hover:text-sidebar-text"
+          aria-label="Cerrar sesión"
+          title="Cerrar sesión"
+          className="flex w-full items-center justify-center gap-3 rounded px-3 py-2 text-sm font-medium text-sidebar-text-muted transition-colors hover:bg-white/5 hover:text-sidebar-text md:justify-start"
         >
-          <LogOut size={20} />
-          Cerrar sesión
+          <LogOut size={20} aria-hidden="true" />
+          <span className="hidden md:inline">Cerrar sesión</span>
         </button>
       </div>
     </nav>

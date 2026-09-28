@@ -9,6 +9,7 @@ import { AuditProgress } from '../features/audits/components/AuditProgress';
 import { AuditTotalsCards } from '../features/audits/components/AuditTotalsCards';
 import type { AuditDetail } from '../features/audits/types';
 import { useAuditPolling } from '../features/audits/useAuditPolling';
+import { usePageTitle } from '../lib/document/usePageTitle';
 
 const HISTORY_PATH = '/auditorias';
 
@@ -39,6 +40,7 @@ function AuditResult({ audit }: { audit: AuditDetail }) {
 export function AuditDetailPage() {
   const { id = '' } = useParams();
   const { audit, error, notFound, retry } = useAuditPolling(id);
+  usePageTitle(audit ? `Auditoría de ${audit.project.name}` : 'Auditoría');
 
   const renderContent = () => {
     if (notFound) {

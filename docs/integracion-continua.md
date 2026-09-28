@@ -11,9 +11,10 @@ mergearse.
 | **Backend** | Instala dependencias, revisa estilo, compila, ejecuta las pruebas unitarias con cobertura y las de integración contra PostgreSQL. |
 | **Reglas de escaneo** | Instala Semgrep y verifica cada regla contra sus casos de prueba. |
 | **Imagen de Docker** | Construye la imagen de producción del backend. |
+| **Frontend** | Instala dependencias, revisa estilo sin admitir advertencias, ejecuta las pruebas unitarias y genera el build de producción. |
 
-Los tres corren en paralelo. Una ejecución nueva sobre la misma rama cancela la
-anterior, para no acumular trabajos que ya no interesan.
+Los cuatro corren en paralelo. Una ejecución nueva sobre la misma rama cancela
+la anterior, para no acumular trabajos que ya no interesan.
 
 ## Base de datos
 
@@ -36,7 +37,7 @@ cobertura baja de ese valor, el paso falla. Cada ejecución deja además:
 
 ## Reproducirlo en local
 
-Los mismos pasos, en el mismo orden:
+Los mismos pasos, en el mismo orden. Backend:
 
 ```bash
 cd backend
@@ -48,8 +49,20 @@ docker compose up -d db    # desde la raíz, para las pruebas de integración
 npm run test:e2e
 ```
 
-`lint:ci` se diferencia de `npm run lint` en que no corrige nada: solo informa,
-que es lo que corresponde en un pipeline.
+Frontend:
+
+```bash
+cd frontend
+npm ci
+npm run lint:ci
+npm test
+npm run build
+```
+
+En el backend, `lint:ci` se diferencia de `npm run lint` en que no corrige
+nada: solo informa, que es lo que corresponde en un pipeline. En el frontend,
+`lint:ci` agrega `--max-warnings 0`, así que una advertencia también hace
+fallar el trabajo.
 
 ## Variables al desplegar
 
@@ -57,5 +70,4 @@ Las que hay que definir en el hosting están listadas en el README del backend.
 
 ## Qué no hace todavía
 
-- No revisa el frontend.
 - No despliega: publicar la aplicación es un paso aparte.

@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Aplica el tema guardado antes de pintar, para evitar un destello claro.
+      try {
+        if (localStorage.getItem('dpa-theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch {
+        // Almacenamiento bloqueado: se queda el tema claro.
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

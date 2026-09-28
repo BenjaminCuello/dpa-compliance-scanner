@@ -16,7 +16,8 @@
   --color-sidebar-text-muted: #a1a1aa;
 
   --color-text: #1a1d23;
-  --color-text-muted: #6b7280;
+  /* 4.5:1 o más sobre bg, bg-soft y surface. */
+  --color-text-muted: #676d7b;
 
   --color-accent: #0ea5e9;
   --color-accent-hover: #0284c7;

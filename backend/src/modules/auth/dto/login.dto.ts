@@ -3,12 +3,15 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 /** Credenciales entregadas al iniciar sesión. */
 export class LoginDto {
-  @ApiProperty({ example: 'ana@ejemplo.cl' })
+  @ApiProperty({
+    example: 'ana@ejemplo.cl',
+    description: 'Correo de la cuenta',
+  })
   @IsEmail({}, { message: 'El correo no tiene un formato válido' })
   @IsNotEmpty({ message: 'El correo es obligatorio' })
   email: string;
 
-  @ApiProperty({ example: 'Clave.Segura2026' })
+  @ApiProperty({ example: 'Clave.Segura2026', description: 'Contraseña' })
   @IsString({ message: 'La contraseña debe ser texto' })
   @IsNotEmpty({ message: 'La contraseña es obligatoria' })
   password: string;

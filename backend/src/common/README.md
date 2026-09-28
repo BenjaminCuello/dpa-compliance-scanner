@@ -4,7 +4,10 @@ Componentes transversales, sin lógica de negocio, reutilizables por cualquier m
 
 - `filters/http-exception.filter.ts`: filtro global que unifica el formato de las
   respuestas de error de la API.
-- `interceptors/`: reservado para interceptores compartidos (logging, transformación
-  de respuestas).
+- `dto/`: `ErrorResponseDto`, el esquema OpenAPI de ese formato de error.
+- `swagger/`: decorador `ApiErrorResponses` y ejemplos para documentar los
+  errores de cada endpoint.
+- `database/`: utilidades para interpretar errores de PostgreSQL.
+- `entities/`: entidad base con los campos comunes.
 
-Se registran en `main.ts` para que apliquen a toda la API.
+El filtro se registra en `bootstrap/app.setup.ts` para que aplique a toda la API.

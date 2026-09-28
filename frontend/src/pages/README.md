@@ -4,7 +4,9 @@ Componentes de página: cada archivo representa una ruta completa y se
 conecta con `src/routes/AppRoutes.tsx`.
 
 - `LoginPage.tsx`: formulario de inicio de sesión, usa `useAuth()` para
-  autenticar contra el backend.
+  autenticar contra el backend. Con `?sesion=expirada` muestra un aviso
+  informativo (no de error); al ingresar navega a `/dashboard` sin el
+  parámetro.
 - `RegisterPage.tsx`: formulario de registro de cuenta, usa `useAuth()`
   para crear la cuenta y autenticarla.
 - `DashboardPage.tsx`: ruta `/dashboard`. Usa `useDashboardData` y
@@ -26,6 +28,10 @@ conecta con `src/routes/AppRoutes.tsx`.
   es ajena o el id no es válido, muestra "Auditoría no encontrada" con un
   enlace al historial. Si una consulta falla con la auditoría ya cargada,
   conserva lo que había y ofrece "Reintentar".
+
+Cada página fija el título de la pestaña con `usePageTitle` (ver
+`src/lib/document/`); el detalle usa "Auditoría de <proyecto>" y, mientras
+carga, "Auditoría".
 
 Las páginas no deberían contener lógica de negocio compleja: esa lógica vive
 en `src/features/`.

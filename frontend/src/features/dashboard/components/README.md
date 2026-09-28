@@ -13,7 +13,9 @@ solo los compone; los cálculos viven en `../aggregations.ts` y
   gráfico y un mensaje que reemplaza al contenido cuando aún no hay datos.
 - `ChartTable.tsx`: tabla de dos columnas equivalente a un gráfico.
 - `tableStyles.ts`: clases compartidas de las tablas (sin mayúsculas
-  sostenidas en la cabecera).
+  sostenidas en la cabecera). El contenedor es `relative` para que los
+  textos `sr-only` de las celdas no escapen de su scroll y ensanchen la
+  página en pantallas angostas.
 - `StatCards.tsx`: grilla de indicadores con el patrón de
   `AuditTotalsCards`. `OverviewStats.tsx` y `ProjectStats.tsx` la usan para
   cada vista; `ProjectStats` muestra la variación del puntaje con signo y un
@@ -23,7 +25,8 @@ solo los compone; los cálculos viven en `../aggregations.ts` y
   hallazgos.
 - `RecentAudits.tsx`: últimas auditorías con enlace al detalle y a
   `/auditorias`.
-- `ProjectFilter.tsx`: select "Proyecto" con "Todos los proyectos".
+- `ProjectFilter.tsx`: select "Proyecto" con "Todos los proyectos". Se
+  angosta con la pantalla para no generar scroll horizontal.
 
 ## Gráficos
 

@@ -4,11 +4,13 @@ Cliente HTTP compartido para hablar con la API del backend.
 
 - `httpClient.ts`: instancia de Axios configurada con `VITE_API_URL`. Un
   interceptor de request agrega el token JWT en el header `Authorization`
-  cuando existe; un interceptor de response detecta sesiones expiradas
-  (401 en un endpoint protegido) y redirige a `/login` limpiando el token.
+  cuando existe; un interceptor de response delega en `handleSessionExpired`.
 - `tokenStorage.ts`: guarda, lee y elimina el token JWT en `localStorage`.
 - `sessionExpiry.ts`: decide si un error 401 corresponde a una sesión
-  expirada o a un login/registro con credenciales inválidas.
+  expirada o a un login/registro con credenciales inválidas. Ante una sesión
+  expirada, `handleSessionExpired` borra el token y redirige a
+  `/login?sesion=expirada`, donde `LoginPage` muestra el aviso "Tu sesión
+  expiró. Inicia sesión nuevamente.".
 - `apiError.ts`: extrae un mensaje de error legible desde el formato de
   respuesta de error del backend (`{ statusCode, path, timestamp, message }`).
   Ante un 429 devuelve un mensaje propio en español, porque el backend

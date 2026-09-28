@@ -50,7 +50,8 @@ genéricos (badge base, estados de carga, vacío y error, paginación) están en
   nombre opcional).
 - `AuditHistoryFilter.tsx`: selector de estado con "Todos".
 - `AuditHistoryTable.tsx` y `AuditHistoryRow.tsx`: tabla del historial con
-  scroll horizontal propio y la acción "Volver a auditar", deshabilitada
+  scroll horizontal propio (contenedor `relative`, para que los `sr-only`
+  del puntaje no ensanchen la página) y la acción "Volver a auditar", deshabilitada
   mientras la auditoría está en `pending` o `running` y, en todas las filas,
   mientras se envía una re-auditoría (solo la fila enviada muestra
   "Iniciando…"). El acceso al detalle por teclado es el enlace del nombre

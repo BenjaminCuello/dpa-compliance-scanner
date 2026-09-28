@@ -25,7 +25,7 @@ dentro de un único repositorio.
 .
 ├── .github/workflows/       # Integración continua
 ├── backend/                 # API NestJS (ver backend/README.md)
-├── frontend/                # Aplicación React (pendiente)
+├── frontend/                # Aplicación React (ver frontend/README.md)
 ├── docs/                    # Documentación transversal
 ├── docker-compose.yml       # PostgreSQL + backend
 └── docker-compose.dev.yml   # Sobrescritura para desarrollo
@@ -56,6 +56,20 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
 - API: `http://localhost:3000/api`
 - Swagger: `http://localhost:3000/api/docs`
 
+El frontend corre aparte, con el backend ya levantado:
+
+```bash
+cp frontend/.env.example frontend/.env
+cd frontend
+npm install
+npm run dev
+```
+
+- Aplicación: `http://localhost:5173`
+
+La guía para revisar la aplicación completa antes de publicarla está en
+[docs/prueba-flujo-completo.md](docs/prueba-flujo-completo.md).
+
 ## Estado del proyecto
 
 ### Completado
@@ -76,9 +90,13 @@ Detalle de imágenes, redes y volúmenes en [docs/infraestructura.md](docs/infra
       API y la base de datos reales.
 - [x] Integración continua en GitHub Actions: estilo, compilación, pruebas con
       cobertura, reglas de escaneo e imagen de Docker.
+- [x] Frontend React: registro e inicio de sesión, auditorías con historial,
+      re-auditoría y detalle de hallazgos, y panel de cumplimiento con
+      gráficos, en modo claro y oscuro.
+- [x] Integración continua del frontend: estilo sin advertencias, pruebas
+      unitarias y build de producción.
 
 ### Pendiente
 
-- [ ] **Frontend React**: dashboard con gráficos de cumplimiento y detalle de hallazgos.
 - [ ] **Despliegue automático** a un servicio gratuito con base de datos PostgreSQL
       administrada.

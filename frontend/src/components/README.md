@@ -12,6 +12,8 @@ textos o reglas de un dominio viven en `src/features/<dominio>/components/`.
 - `LoadingState.tsx`: indicador de carga con `role="status"`.
 - `EmptyState.tsx`: mensaje para secciones sin contenido, con un llamado a
   la acción opcional.
+- `InfoNotice.tsx`: aviso informativo en tono de acento con
+  `role="status"`, para mensajes que no son errores (p. ej. sesión expirada).
 - `ErrorState.tsx`: aviso de error con `role="alert"` y botón "Reintentar"
   opcional.
 - `Pagination.tsx`: botones "Anterior" y "Siguiente" e indicador

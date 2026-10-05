@@ -30,7 +30,6 @@ export function LoginPage() {
 
     try {
       await login({ email, password });
-      // Sin `?sesion=expirada`: el aviso no debe sobrevivir al login.
       navigate('/dashboard', { replace: true });
     } catch (err) {
       setError(extractErrorMessage(err));
